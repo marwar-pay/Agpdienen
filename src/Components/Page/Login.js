@@ -120,17 +120,7 @@ export default function LoginPage() {
           </div>
         </div>
         {message && <p style={{ color: "red" }}>{message}</p>}
-        {/* <ToastContainer 
-        position="top-right" 
-        autoClose={2000} 
-        hideProgressBar={false} 
-        newestOnTop={false} 
-        closeOnClick 
-        rtl={false} 
-        pauseOnFocusLoss 
-        draggable 
-        pauseOnHover 
-      /> */}
+   
       </div>
     </>
   );
@@ -154,7 +144,7 @@ const styles = {
     overflow: "hidden",
   },
   leftPane: {
-    backgroundColor: "red",
+    backgroundColor: "black",
     color: "#fff",
     flex: 1,
     padding: "20px",
@@ -209,7 +199,7 @@ const styles = {
     textDecoration: "none",
   },
   loginButton: {
-    backgroundColor: "red",
+    backgroundColor: "black",
     color: "#fff",
     border: "none",
     padding: "10px",

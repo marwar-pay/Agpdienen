@@ -1,12 +1,12 @@
 import ContactForm from './Contactform';
-import ImagePage from './Imagebanner';
+import Title from './Imagebanner';
 import Header from '@/Layout/Header';
 
 export default function Contact() {
   return (
     <>
       <Header />
-      <ImagePage/>
+      <Title/>
       <ContactForm/>
     </>
   );

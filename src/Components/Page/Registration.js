@@ -166,7 +166,7 @@ const styles = {
     overflow: "hidden",
   },
   leftPane: {
-    backgroundColor: "red",
+    backgroundColor: "black",
     color: "#fff",
     flex: 1,
     padding: "20px",
@@ -211,7 +211,7 @@ const styles = {
     outline: "none",
   },
   registerButton: {
-    backgroundColor: "red",
+    backgroundColor: "black",
     color: "#fff",
     border: "none",
     padding: "10px",
