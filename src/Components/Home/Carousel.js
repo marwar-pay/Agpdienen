@@ -241,25 +241,7 @@ const Hero = () => {
       </div>
 
       {/* Navigation arrows (optional) */}
-      <div
-        className="position-absolute d-flex gap-3"
-        style={{ top: '50%', left: '5%', zIndex: 100, transform: 'translateY(-50%)' }}
-      >
-        {/* <button
-          className="btn btn-outline-light rounded-circle d-flex align-items-center justify-content-center"
-          style={{ width: '50px', height: '50px' }}
-          onClick={prevSlide}
-        >
-          &lt;
-        </button>
-        <button
-          className="btn btn-outline-light rounded-circle d-flex align-items-center justify-content-center"
-          style={{ width: '50px', height: '50px' }}
-          onClick={nextSlide}
-        >
-          &gt;
-        </button> */}
-      </div>
+     
     </div>
   );
 };
