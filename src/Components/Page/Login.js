@@ -53,7 +53,7 @@ export default function LoginPage() {
     <>
       <Header />
       <div style={styles.overlayContainer}>
-        <h1 style={{position: "absolute", top:"130px"}}>Login</h1>
+        <h1 style={{ position: "absolute", top: "130px" }}>Login</h1>
         <div style={styles.loginContainer}>
           {/* <div style={styles.leftPane}>
             <h2 style={styles.heading}>LOGIN</h2>
@@ -120,7 +120,7 @@ export default function LoginPage() {
           </div>
         </div>
         {message && <p style={{ color: "red" }}>{message}</p>}
-   
+
       </div>
     </>
   );

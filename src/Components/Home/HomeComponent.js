@@ -5,7 +5,7 @@ import AllProduct from "../Product/AllProduct";
 // import About from "./About";
 import Testimonials from "./Testimonial";
 import BestsellerSection from "./Bestseller";
-import Newsletter from "./Newsletter";
+// import Newsletter from "./Newsletter";
 import CollectionList from "./Collection";
 import ContactForm from "../Page/Contactform";
 import Detail from "../About/Detail";
@@ -23,7 +23,6 @@ function HomeComponent() {
   return (
     <div>
         <Navbar/>
-  
         <Hero/>
         <CollectionList/>
         <AllProduct/>
