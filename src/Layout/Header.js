@@ -79,7 +79,7 @@ useEffect(() => {
       };
 
   return (
-    <div className="headerfix">
+    <div className="headerfix" style={{zIndex:"2000"}}>
       {/* Top Bar */}
       <div className="bg-dark text-white py-2 px-4 d-flex justify-content-end align-items-center">
         <Link href="/login/vendorlogin" className="text-white hover:text-primary mx-3">

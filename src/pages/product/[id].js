@@ -1,13 +1,16 @@
+
+
+
 "use client"
 
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Header from '@/Layout/Header';
-
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row, Button, Badge } from 'react-bootstrap';
 import { toast, ToastContainer } from 'react-toastify';
 import { useCart } from '@/context/CartContext';
 import { apiGet, apiPost } from '@/api/apiMethods';
+import styles from '../../styles/ProductDetail.module.css';
 
 const ProductDetail = () => {
   const router = useRouter();
@@ -15,6 +18,10 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
   const { addToCart, setBuyNow, addToWishlist } = useCart();
+  const availableSizes = ["S", "M", "L", "XL", "XXL"];
+  const [selectedSize, setSelectedSize] = useState('');
+  
+
   useEffect(() => {
     if (id) {
       // Fetch product details using axios
@@ -33,28 +40,24 @@ const ProductDetail = () => {
     }
   }, [id]);
   
-
-
-
+ const handleAddToCart = async () => {
+    if (!selectedSize) return toast.error("Please select a size");
+    await addToCart({ ...product, selectedSize });
+  };
   
-
-
-
-
-const handleAddToCart = async () => {
-  await addToCart(product); // Calls the context function that handles the API interaction
-};
-
   const handleBuyNow = () => {
-        const token = localStorage.getItem("accessToken");
-        if (token) {
-          setBuyNow(product); // Store product for Buy Now
-          router.push("/checkout"); // Redirect to checkout page
-        } else {
-          toast.error("Login First");
-          router.push("/login");
-        }
-      };
+    if (!selectedSize) return toast.error("Please select a size");
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      setBuyNow({ ...product, selectedSize });
+      router.push("/checkout");
+    } else {
+      toast.error("Login First");
+      router.push("/login");
+    }
+  };
+  
+  
       const handleAddToWishlist = () => {
             const token = localStorage.getItem("accessToken");
             if (token) {
@@ -71,68 +74,138 @@ const handleAddToCart = async () => {
   }
 
   return (
-  
-    <div>
-         <Header />
-           <Container className="mt-5">
-             <Row>
-               {/* Left Section */}
-               <Col md={6}>
-                 <img
-                  src={selectedImage || product.images[0]}
-                 className=" mb-3"
-                   style={{ width: "70%", cursor: "pointer"  }}
-                    className="zoom-effect"
-                 />
-                 <div className="d-flex gap-2">
-                   {product.images.map((img, index) => (
-                     <img
-                      key={index}
-                      src={img}
-                      style={{
-                        width: "70px",
-                        height: "70px",
-                        objectFit: "cover",
-                        cursor: "pointer",
-                        border: selectedImage === img ? "2px solid blue" : "none",
-                      }}
-                      onClick={() => setSelectedImage(img)}
-                      alt={`thumbnail-${index}`}  className="zoom-effect"
-                    />
+    <div className={styles.productPage}>
+      <Header />
+      <Container className="py-5">
+        <Row className="g-5" style={{ marginTop: "1%" }}>
+          {/* Image Gallery */}
+          <Col md={6} className={styles.imageGallery}>
+            <div className={styles.mainImage}>
+              <img
+                src={selectedImage || product.images[0]}
+                className="img-fluid rounded-3"
+                alt={product.productName}
+              />
+              {product.discount > 0 && (
+                <Badge bg="danger" className={styles.discountBadge}>
+                  {product.discount}% OFF
+                </Badge>
+              )}
+            </div>
+            <div className={styles.thumbnailRow}>
+              {product.images.map((img, index) => (
+                <div 
+                  key={index}
+                  className={`${styles.thumbnail} ${selectedImage === img ? styles.activeThumbnail : ''}`}
+                  onClick={() => setSelectedImage(img)}
+                >
+                  <img
+                    src={img}
+                    className="img-fluid"
+                    alt={`thumbnail-${index}`}
+                  />
+                </div>
+              ))}
+            </div>
+          </Col>
+
+          {/* Product Details */}
+          <Col md={6} className={styles.productDetails}>
+            <div className="sticky-top pt-4">
+              <h1 className="mb-3 fw-bold">{product.productName}</h1>
+              
+              <div className="d-flex align-items-center gap-3 mb-4">
+                <h2 className="text-success mb-0">
+                  ₹{Math.round(product.actualPrice)}
+                  {product.price > product.actualPrice && (
+                    <del className="text-muted fs-6 ms-2">₹{Math.round(product.price)}</del>
+                  )}
+                </h2>
+                {product.discount > 0 && (
+                  <span className="text-success fs-6">
+                    (Save {product.discount}%)
+                  </span>
+                )}
+              </div>
+
+              <div className="mb-4">
+                <h5 className="mb-3">Select Size</h5>
+                <div className="d-flex gap-2 flex-wrap">
+                  {availableSizes.map((size, idx) => (
+                    <Button
+                      key={idx}
+                      variant={selectedSize === size ? 'dark' : 'outline-dark'}
+                      className={`${styles.sizeButton} rounded-circle`}
+                      onClick={() => setSelectedSize(size)}
+                    >
+                      {size}
+                    </Button>
                   ))}
                 </div>
-              </Col>
-    
-              {/* Right Section */}
-               <Col md={6}>
-                 <h2>{product.productName}</h2>
-                 <p>{product.description}</p>
-                 <h4 className="text-success">Price: ₹{product.actualPrice}</h4>
-               <p className="text-muted">
-                   MRP: <span className="text-decoration-line-through">₹{product.price}</span>
-                 </p>
-                 <Row>
-                   <Col>
-                     <button className="btn btn-primary" onClick={handleAddToCart}>
-                       Add to Cart
-                     </button>
-                   </Col>
-                   <Col>
-                     <button className="btn btn-success" onClick={handleBuyNow}>
-                       Buy Now
-                     </button>
-                   </Col>
-                 <Col>
-                   <button className="btn btn-warning" onClick={handleAddToWishlist}>
-                     Add to Wishlist
-                   </button>
-                 </Col>
-               </Row>
-             </Col>
-           </Row>
-         </Container>
-           
-        </div> 
+              </div>
+
+              <div className="d-flex gap-3 mb-4">
+                <Button 
+                  variant="dark" 
+                  size="lg"
+                  className="w-100 py-3"
+                  onClick={handleAddToCart}
+                  disabled={!selectedSize}
+                >
+                  Add to Cart
+                </Button>
+                <Button 
+                  variant="outline-dark" 
+                  size="lg"
+                  className="w-100 py-3"
+                  onClick={handleBuyNow}
+                  disabled={!selectedSize}
+                >
+                  Buy Now
+                </Button>
+              </div>
+
+              <Button 
+               variant="outline-dark" 
+               size="lg"
+               className="w-100 py-3"
+                onClick={handleAddToWishlist}
+              >
+                <i className="bi bi-heart me-2"></i>Add to Wishlist
+              </Button>
+
+              <div className="mb-4 mt-10">
+                <h5>Product Details</h5>
+                <p className="text-muted">{product.description}</p>
+                <div className="row">
+                  <div className="col-6">
+                    <p className="mb-1"><strong>Material:</strong> Cotton</p>
+                    <p className="mb-1"><strong>Fit:</strong> Regular</p>
+                  </div>
+                  <div className="col-6">
+                    <p className="mb-1"><strong>Care:</strong> Machine Wash</p>
+                    <p className="mb-1"><strong>SKU:</strong> {product.sku}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.deliveryInfo}>
+                <div className="d-flex align-items-center gap-3 mb-3">
+                  <i className="bi bi-truck fs-4"></i>
+                  <div>
+                    <h6 className="mb-0">Free Delivery</h6>
+                    <small className="text-muted">Estimated 3-5 days</small>
+                  </div>
+                </div>
+              
+            
+              </div>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+      <ToastContainer />
+    </div>
   );
 };
 

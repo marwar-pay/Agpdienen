@@ -1,0 +1,103 @@
+.productPage {
+    background-color: #f8f9fa;
+  }
+  
+  .imageGallery {
+    position: relative;
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+  
+  .mainImage {
+    position: relative;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    border-radius: 0.5rem;
+  }
+  
+  
+  .discountBadge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 2px 4px;
+    font-size: 15px;
+  }
+  
+  .thumbnailRow {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+  }
+  
+  .thumbnail {
+    width: 80px;
+    min-width: 80px;
+    height: 80px;
+    border: 2px solid transparent;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .thumbnail:hover {
+    border-color: #333;
+  }
+  
+  .activeThumbnail {
+    border-color: #333;
+    position: relative;
+  }
+  
+  .activeThumbnail::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px solid #fff;
+    border-radius: 0.35rem;
+  }
+  
+  .productDetails {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+  
+  .sizeButton {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+  
+  .deliveryInfo {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 2rem;
+  }
+  
+  @media (max-width: 768px) {
+    .imageGallery {
+      padding: 1rem;
+    }
+    
+    .productDetails {
+      padding: 1.5rem;
+    }
+    
+    .sizeButton {
+      width: 40px;
+      height: 40px;
+      font-size: 0.9rem;
+    }
+  }
