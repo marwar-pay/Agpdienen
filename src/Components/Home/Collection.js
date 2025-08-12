@@ -32,43 +32,52 @@ const CollectionList = () => {
   }, []);
 
   // Local images to loop through
-  const localImages = [ img3, img1, img2, img4,img5,img,img7,img6];
+  const localImages = [img3, img1, img2, img4, img5, img, img7, img6];
 
   return (
     <div className="container my-5">
-      <div className="row justify-content-center">
+      <div className="row g-4 justify-content-center">
         {categories.length > 0 ? (
           categories.map((category, index) => (
-            <div className="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6 mb-4" key={index}>
+            <div
+              className="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-10"
+              key={index}
+            >
               <Link
                 href={`/products/allproducts?category=${category._id}`}
-                className="text-decoration-none text-dark"
+                className="text-decoration-none"
               >
-                <div className="text-center">
-                  {/* Circular image */}
+                <div
+                  className="card h-100 border-0 shadow-sm hover-card"
+                  style={{
+                    borderRadius: "12px",
+                    transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                  }}
+                >
                   <div
-                    className="mx-auto mb-2"
+                    className="position-relative"
                     style={{
-                      width: "120px",
-                      height: "120px",
+                      height: "160px",
                       overflow: "hidden",
-                      borderRadius: "50%",
-                      border: "1px solid #eee", background: "linear-gradient(to right, #e3b7a3, #a5cec7)",
+                      borderTopLeftRadius: "12px",
+                      borderTopRightRadius: "12px",
                     }}
                   >
                     <Image
                       src={localImages[index % localImages.length]}
                       alt={category.name}
-                      width={120}
-                      height={120}
-                      className="img-fluid object-fit-cover"
-                      priority
+                      fill
+                      style={{ objectFit: "cover" }}
                     />
                   </div>
-                  {/* Category name */}
-                  <h6 className="text-capitalize fw-semibold" style={{ fontSize: "14px" }}>
-                    {category.name}
-                  </h6>
+                  <div className="card-body text-center p-3">
+                    <h6
+                      className="fw-semibold text-dark mb-0"
+                      style={{ fontSize: "14px" }}
+                    >
+                      {category.name}
+                    </h6>
+                  </div>
                 </div>
               </Link>
             </div>
@@ -77,6 +86,14 @@ const CollectionList = () => {
           <p className="text-center w-100">Loading categories...</p>
         )}
       </div>
+
+      {/* Hover Effect Styles */}
+      <style jsx>{`
+        .hover-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.12);
+        }
+      `}</style>
     </div>
   );
 };

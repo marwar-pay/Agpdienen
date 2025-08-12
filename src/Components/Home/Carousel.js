@@ -4,7 +4,7 @@ import Img1 from '../../assets/images/H5.jpg';
 import Img2 from '../../assets/images/H2.jpg';
 import Img3 from '../../assets/images/H3.jpg';
 import Img4 from '../../assets/images/H4.jpg';
-import { motion,AnimatePresence  } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -126,58 +126,58 @@ const Hero = () => {
               className="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center"
               style={{ paddingLeft: '10%' }}
             >
-             <AnimatePresence mode="wait">
-  <motion.div
-    key={currentSlide}
-    initial={{ opacity: 0, y: 50 }}
-    animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: -50 }}
-    transition={{ duration: 0.8 }}
-    className="text-white"
-    style={{ maxWidth: '600px' }}
-  >
-    <motion.div
-      initial={{ opacity: 0, x: -30 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.8, delay: 0.2 }}
-      className="mb-1 fw-bold text-uppercase"
-      style={{
-        letterSpacing: '10px',
-        textShadow: '1px 1px 3px rgba(0,0,0,0.5)'
-      }}
-    >
-      {slide.author}
-    </motion.div>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentSlide}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -50 }}
+                  transition={{ duration: 0.8 }}
+                  className="text-white"
+                  style={{ maxWidth: '600px' }}
+                >
+                  <motion.div
+                    initial={{ opacity: 0, x: -30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    className="mb-1 fw-bold text-uppercase"
+                    style={{
+                      letterSpacing: '10px',
+                      textShadow: '1px 1px 3px rgba(0,0,0,0.5)'
+                    }}
+                  >
+                    {slide.author}
+                  </motion.div>
 
-    <motion.h1
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.8, delay: 0.3 }}
-      className="display-2 fw-bold mb-3"
-      style={{ textShadow: '2px 2px 5px rgba(0,0,0,0.5)' }}
-    >
-      {slide.title}
-    </motion.h1>
+                  <motion.h1
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8, delay: 0.3 }}
+                    className="display-2 fw-bold mb-3"
+                    style={{ textShadow: '2px 2px 5px rgba(0,0,0,0.5)' }}
+                  >
+                    {slide.title}
+                  </motion.h1>
 
-    <motion.div
-      initial={{ opacity: 0, x: 30 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.8, delay: 0.4 }}
-      className="text-danger fw-bold display-4 mb-4"
-    >
-      {slide.topic}
-    </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, x: 30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, delay: 0.4 }}
+                    className="text-danger fw-bold display-4 mb-4"
+                  >
+                    {slide.topic}
+                  </motion.div>
 
-    <motion.p
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8, delay: 0.5 }}
-      className="mb-4 fs-5"
-    >
-      {slide.description}
-    </motion.p>
-  </motion.div>
-</AnimatePresence>
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.8, delay: 0.5 }}
+                    className="mb-4 fs-5"
+                  >
+                    {slide.description}
+                  </motion.p>
+                </motion.div>
+              </AnimatePresence>
 
             </div>
           </div>
@@ -241,7 +241,7 @@ const Hero = () => {
       </div>
 
       {/* Navigation arrows (optional) */}
-     
+
     </div>
   );
 };

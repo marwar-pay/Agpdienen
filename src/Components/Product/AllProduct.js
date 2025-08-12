@@ -336,7 +336,7 @@
 //   return (
 //     <Container className="mt-4">
 //       <h5 className="section-content__title product-title">Fresh Off The Runway</h5>
-      
+
 //       {/* Display active discount filters */}
 //       {(minDiscount || maxDiscount) && (
 //         <div className="mb-3">
@@ -544,7 +544,7 @@ const AllProduct = () => {
   const [totalProducts, setTotalProducts] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
   // All filter states
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
@@ -554,7 +554,7 @@ const AllProduct = () => {
   const [sortBy, setSortBy] = useState();
   const [sortOrder, setSortOrder] = useState();
   const [category, setCategory] = useState('');
-  
+
   const router = useRouter();
   const referenceWebsite = process.env.NEXT_PUBLIC_REFERENCE_WEBSITE;
 
@@ -584,7 +584,7 @@ const AllProduct = () => {
         ...(maxPrice && { maxPrice }),
         ...(router.query.minDiscount ? { minDiscount: router.query.minDiscount } : minDiscount && { minDiscount }),
         ...(router.query.maxDiscount ? { maxDiscount: router.query.maxDiscount } : maxDiscount && { maxDiscount }),
-        
+
         ...(search && { search }),
         ...(sortBy && { sortBy }),
         ...(sortOrder && { sortOrder }),
@@ -629,10 +629,10 @@ const AllProduct = () => {
 
   return (
     <Container className="mt-4">
-      <h5 className="section-content__title product-title">Fresh Off The Runway</h5>
-      
+      <h5 className="section-content__title product-title rounded-end ">Fresh Off The Runway</h5>
+
       {/* Display active filters */}
-     
+
 
       <Row className="mb-3">
         {/* Search */}
@@ -649,7 +649,7 @@ const AllProduct = () => {
         </Col>
 
         {/* Category */}
-      
+
 
         {/* Min Price */}
         <Col md={2}>
@@ -741,15 +741,15 @@ const AllProduct = () => {
         </Col>
 
         {/* Reset Button */}
-       
+
       </Row>
-      <div style={{textAlign:"center",marginBottom:"20px"}}>
-      <Col md={12} className="align-center">
+      <div style={{ textAlign: "center", marginBottom: "20px" }}>
+        <Col md={12} className="align-center">
           <Button variant="outline-secondary" onClick={resetFilters}>
             Reset All
           </Button>
         </Col>
-        </div>
+      </div>
 
       {/* Product Listing */}
       <Row>
@@ -772,50 +772,101 @@ const AllProduct = () => {
           products.map((product) => {
             const discount = calculateDiscount(product.actualPrice, product.price);
             return (
-              <Col md={3} key={product._id} className="mb-4" onClick={() => handleViewDetails(product._id)}>
-                <Card className="h-100 shadow-sm">
+              <Col
+                md={3}
+                key={product._id}
+                className="mb-4"
+                onClick={() => handleViewDetails(product._id)}
+              >
+                <Card
+                  className="h-100 border-0 shadow-sm product-card"
+                  style={{
+                    borderRadius: "12px",
+                    overflow: "hidden",
+                    transition: "transform 0.3s ease, box-shadow 0.3s ease"
+                  }}
+                >
+                  {/* Image Section */}
                   <div
                     style={{
                       height: "230px",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      overflow: "hidden",
-                      padding: "10px",
+                      position: "relative",
+                      backgroundColor: "#f8f9fa",
+                      overflow: "hidden"
                     }}
                   >
-                    <Card.Img className="zoom-effect"
-                      variant="bottom"
+                    <Card.Img
                       src={product.images[0] || "/placeholder.jpg"}
                       alt={product.productName}
                       style={{
                         objectFit: "contain",
-                        maxHeight: "100%",
-                        maxWidth: "100%",
+                        height: "100%",
+                        width: "100%",
+                        padding: "10px",
+                        transition: "transform 0.4s ease"
                       }}
+                      className="product-img"
                     />
-                  </div>
-                  <Card.Body>
-                    <Card.Title>{product.productName}</Card.Title>
-                    {/* <Card.Text style={{ fontSize: '14px', color: '#666' }}>
-                      {product.description}
-                    </Card.Text> */}
-                    <Card.Text style={{ fontSize: '14px', color: '#666' }}>
-  {product.description.split(' ').slice(0, 20).join(' ')}
-  {product.description.split(' ').length > 20 ? '...' : ''}
-</Card.Text>
-                    <Card.Text className="text-success">
-                      Price: ₹{product.actualPrice}  
-                      <span style={{ float: 'right' }}> 
-                        MRP: <span className="text-decoration-line-through">₹{product.price}</span>
+                    {discount > 0 && (
+                      <span
+                        style={{
+                          position: "absolute",
+                          top: "10px",
+                          left: "10px",
+                          background: "#dc3545",
+                          color: "#fff",
+                          padding: "4px 8px",
+                          borderRadius: "4px",
+                          fontSize: "12px",
+                          fontWeight: "600"
+                        }}
+                      >
+                        {discount}% OFF
                       </span>
+                    )}
+                  </div>
+
+                  {/* Content Section */}
+                  <Card.Body className="d-flex flex-column">
+                    <Card.Title
+                      className="fw-bold text-truncate"
+                      style={{ fontSize: "15px", marginBottom: "5px" }}
+                    >
+                      {product.productName}
+                    </Card.Title>
+
+                    <Card.Text
+                      style={{ fontSize: '13px', color: '#666', flexGrow: 1 }}
+                    >
+                      {product.description.split(' ').slice(0, 18).join(' ')}
+                      {product.description.split(' ').length > 18 ? '...' : ''}
                     </Card.Text>
-                    <Card.Text className="text-danger fw-bold">
-                      {discount}% OFF
-                    </Card.Text>
+
+                    <div className="mt-auto">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <span className="fw-bold text-success">
+                          ₹{product.actualPrice}
+                        </span>
+                        <small className="text-muted text-decoration-line-through">
+                          ₹{product.price}
+                        </small>
+                      </div>
+                    </div>
                   </Card.Body>
                 </Card>
+
+                {/* Hover Styles */}
+                <style jsx>{`
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+    .product-card:hover .product-img {
+      transform: scale(1.08);
+    }
+  `}</style>
               </Col>
+
             );
           })
         )}
