@@ -13,8 +13,8 @@
 //             <Image src={logo} style={{width:'30%',backgroundColor:'#fff',borderRadius:'10px'}}/>
           
 //             <p>If you have any question, please contact us at</p>
-//             <Link href="mailto:Agpdienenprivatelimited@gmail.com" className="text-light d-block mb-2">
-//             Agpdienenprivatelimited@gmail.com
+//             <Link href="mailto:agpdienenprivatelimited@gmail.com" className="text-light d-block mb-2">
+//             agpdienenprivatelimited@gmail.com
 //             </Link>
 //             <address>
 //             First Floor 85, Shiv Nagar,Bindayaka jaipur Rajathan Pincode - 302012
@@ -110,8 +110,8 @@ export default function Footer() {
             </div>
             <p>If you have any questions, contact us at:</p>
             <p>
-              <Link href="mailto:Agpdienenprivatelimited@gmail.com" className="text-light d-block">
-                Agpdienenprivatelimited@gmail.com
+              <Link href="mailto:agpdienenprivatelimited@gmail.com" className="text-light d-block">
+                agpdienenprivatelimited@gmail.com
               </Link>
             </p>
             <address className="small">

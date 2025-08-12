@@ -1,6 +1,8 @@
+
 'use client';
 
 import React from 'react';
+import { ShieldCheck, Tag, Layers, Headphones, HeartHandshake } from 'lucide-react';
 
 const imageUrls = [
   "https://m.media-amazon.com/images/I/61PgbwTHmRL._AC_UY1100_.jpg",
@@ -36,10 +38,35 @@ const AboutDetails = () => {
             </p>
 
             <h2 className="h3 fw-bold mb-2">Our Commitment</h2>
-            <p className="text-secondary">
+            <p className="mb-4 text-secondary">
               We are committed to offering an unmatched shopping experience, ensuring that every family finds the perfect attire
               for every occasion. At Agpdienen, we celebrate the joy of family through fashion.
             </p>
+
+            {/* New Section */}
+            <h2 className="h3 fw-bold mb-3">Why Families Choose Us</h2>
+            <ul className="list-unstyled text-secondary">
+              <li className="d-flex align-items-center mb-3">
+                <ShieldCheck className="me-2 text-primary" size={20} />
+                <span><strong>Quality You Can Trust:</strong> Every piece is crafted with care, ensuring comfort and durability.</span>
+              </li>
+              <li className="d-flex align-items-center mb-3">
+                <Tag className="me-2 text-success" size={20} />
+                <span><strong>Affordable Style:</strong> Trendy designs at prices that fit every family’s budget.</span>
+              </li>
+              <li className="d-flex align-items-center mb-3">
+                <Layers className="me-2 text-warning" size={20} />
+                <span><strong>Wide Variety:</strong> From festive outfits to everyday wear — something for all ages and occasions.</span>
+              </li>
+              <li className="d-flex align-items-center mb-3">
+                <Headphones className="me-2 text-danger" size={20} />
+                <span><strong>Customer-Centric Service:</strong> Friendly support and hassle-free returns make shopping stress-free.</span>
+              </li>
+              <li className="d-flex align-items-center">
+                <HeartHandshake className="me-2 text-pink" size={20} />
+                <span><strong>Celebrating Togetherness:</strong> Our collections are designed to bring families closer through coordinated styles.</span>
+              </li>
+            </ul>
           </div>
 
           {/* Right Image Grid Column */}

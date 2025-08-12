@@ -31,7 +31,7 @@ export default function InvoiceTemplate({ order }) {
               <div className="col-6 text-sm text-black-500 mt-2">
                 <p><strong>GST</strong>: 08ABOCS1177N1ZL</p>
                 <p><strong>Address</strong>: Office number 38, second floor, Omaxe Celebration Mall, Badshahpur Sohna Rd Hwy, Central Park II, Sector 48, Gurugram, Haryana 122001</p>
-                <p><strong>Email</strong>: Agpdienenprivatelimited@gmail.com</p>
+                <p><strong>Email</strong>: agpdienenprivatelimited@gmail.com</p>
                 <p><strong>Contact</strong>: +91-7296988927</p>
               </div>
               <div className="col-6 text-right">

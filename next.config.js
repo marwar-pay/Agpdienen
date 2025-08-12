@@ -10,6 +10,8 @@ const nextConfig = {
       'img-c.udemycdn.com',
       'thumbs.dreamstime.com',
       'images.unsplash.com',
+      "randomuser.me",
+      "images.unsplash.com"
     ],
   },
 };

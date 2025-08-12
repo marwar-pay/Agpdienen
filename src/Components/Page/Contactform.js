@@ -1,106 +1,17 @@
-
-
-
-// export default function ContactForm() {
-//   return (
-//     <>
-//     <div className="bg-light">
-       
-//         <header className="bg-dark text-white p-4 text-center">
-//           <h1 className="h3">Contact Us</h1>
-//           <p>We would love to hear from you!</p>
-//         </header>
-
-//         <div className="container py-5">
-//           <div className="row g-4">
-//             {/* Contact Form */}
-//             <div className="col-12 col-md-6"  style={{height:'100%'}}>
-//               <div className="bg-white p-4 shadow rounded">
-//                 <h2 className="h4 text-dark mb-3">Get In Touch</h2>
-//                 <form>
-//                   <div className="mb-3">
-//                     <label htmlFor="name" className="form-label">Name</label>
-//                     <input type="text" id="name" className="form-control" placeholder="Your Name" required />
-//                   </div>
-
-//                   <div className="mb-3">
-//                     <label htmlFor="email" className="form-label">Email</label>
-//                     <input type="email" id="email" className="form-control" placeholder="Your Email" required />
-//                   </div>
-
-//                   <div className="mb-3">
-//                     <label htmlFor="subject" className="form-label">Subject</label>
-//                     <input type="text" id="subject" className="form-control" placeholder="Subject" required />
-//                   </div>
-
-//                   <div className="mb-3">
-//                     <label htmlFor="message" className="form-label">Your Message</label>
-//                     <textarea id="message" className="form-control" rows="4" placeholder="Your Message" required></textarea>
-//                   </div>
-
-//                   <button type="submit" className="btn btn-primary w-100">Submit</button>
-//                 </form>
-//               </div>
-//             </div>
-
-//             {/* Contact Information */}
-//             <div className="col-12 col-md-6"  style={{height:'100%'}}>
-//               <div className="bg-light p-4 shadow rounded">
-//                 <h2 className="h4 text-dark mb-3">Contact Information</h2>
-//                 <ul className="list-unstyled">
-//                   <li className="mb-2">
-//                     <strong>📞</strong> <a href="tel:+91-7296988927">+91-7296988927</a>
-//                   </li>
-//                   <li className="mb-2">
-//                     <strong>📧</strong> <a href="mailto:Agpdienenprivatelimited@gmail.com">Agpdienenprivatelimited@gmail.com</a>
-//                   </li>
-//                   <li className="mb-2">
-//                     <strong>📍</strong> Office number 38, second floor, Omaxe Celebration Mall, Badshahpur Sohna Rd Hwy, Central Park II, Sector 48, Gurugram, Haryana 122001
-//                   </li>
-//                 </ul>
-
-//                 <h6 className="mt-4">Follow Us</h6>
-//                 <div className="d-flex gap-3 mt-2">
-//                   <a href="https://www.facebook.com" target="_blank" rel="noreferrer" className="text-dark">Facebook</a>
-//                   <a href="https://www.instagram.com" target="_blank" rel="noreferrer" className="text-dark">Instagram</a>
-//                   <a href="https://www.youtube.com" target="_blank" rel="noreferrer" className="text-dark">YouTube</a>
-//                 </div>
-
-//                 <div className="mt-4">
-//                   <iframe
-//                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3557.521229830895!2d75.66353797308687!3d26.9186857082351!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396c4c883d4ffc41%3A0x19861f7d860a6af1!2sShiv%20Nagar%2C%2046-47%2C%20Sirsi%20Rd%2C%20behind%20Bharat%20Gas%20Godam%2C%20Bindayaka%2C%20Jaipur%2C%20Rajasthan%20302012!5e0!3m2!1sen!2sin!4v1735887916000!5m2!1sen!2sin"
-//                     width="100%"
-//                     height="300"
-//                     style={{ border: 0 }}
-//                     allowFullScreen
-//                     loading="lazy"
-//                     referrerPolicy="no-referrer-when-downgrade"
-//                   ></iframe>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </>
-// );
-// }
-
-
-
-
-
 'use client';
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import Image from 'next/image';
 import Img3 from '../../assets/images/H2.jpg';
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
+import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaMapMarkerAlt, FaPhoneAlt, FaEnvelope } from 'react-icons/fa';
 
 const Contact = () => {
   const controls = useAnimation();
   const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: false });
+
+  const [formData, setFormData] = useState({ name: "", subject: "", email: "", message: "" });
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     if (inView) controls.start("visible");
@@ -123,6 +34,13 @@ const Contact = () => {
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 3000);
+    setFormData({ name: "", subject: "", email: "", message: "" });
+  };
+
   return (
     <motion.div
       ref={ref}
@@ -134,28 +52,53 @@ const Contact = () => {
       <div className="container py-5">
         <div className="row g-4 align-items-start justify-content-center">
           {/* Contact Form */}
-          <motion.div
-            variants={itemVariants}
-            className="col-lg-5"
-          >
+          <motion.div variants={itemVariants} className="col-lg-5">
             <div className="card shadow rounded-4 p-4">
               <h2 className="text-center mb-4">Contact Us</h2>
-              <form>
+              <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                   <label htmlFor="name" className="form-label">Enter your Name</label>
-                  <input type="text" id="name" className="form-control" />
+                  <input
+                    type="text"
+                    id="name"
+                    className="form-control"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    required
+                  />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="subject" className="form-label">Subject</label>
-                  <input type="text" id="subject" className="form-control" />
+                  <input
+                    type="text"
+                    id="subject"
+                    className="form-control"
+                    value={formData.subject}
+                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                    required
+                  />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="email" className="form-label">Email ID</label>
-                  <input type="email" id="email" className="form-control" />
+                  <input
+                    type="email"
+                    id="email"
+                    className="form-control"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    required
+                  />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="message" className="form-label">Enter your message</label>
-                  <textarea id="message" rows="3" className="form-control" />
+                  <textarea
+                    id="message"
+                    rows="3"
+                    className="form-control"
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    required
+                  />
                 </div>
                 <motion.button
                   type="submit"
@@ -165,11 +108,17 @@ const Contact = () => {
                 >
                   Send Now
                 </motion.button>
+
+                {submitted && (
+                  <p className="text-success text-center mt-3">
+                    ✅ Your message has been sent successfully!
+                  </p>
+                )}
               </form>
             </div>
           </motion.div>
 
-          {/* Image and Social Media Card */}
+          {/* Image + Social Media */}
           <div className="col-lg-5">
             <motion.div variants={itemVariants} className="mb-4">
               <Image
@@ -200,24 +149,61 @@ const Contact = () => {
           </div>
         </div>
 
-        {/* Contact Info */}
-        <motion.div
-          variants={itemVariants}
-          className="row mt-5 mx-auto bg-secondary text-white rounded-4 p-4 shadow w-100"
-        >
-          <div className="col-md-4 text-center mb-3 mb-md-0">
-            <h5>CALL US</h5>
-            <p className="mb-0">+91-7296988927</p>
-          </div>
-          <div className="col-md-4 text-center mb-3 mb-md-0">
-            <h5>LOCATION</h5>
-            <p className="mb-0">Office number 38, second floor, Omaxe Celebration Mall, Badshahpur Sohna Rd Hwy, Central Park II, Sector 48, Gurugram, Haryana 122001</p>
-          </div>
-          <div className="col-md-4 text-center">
-            <h5>EMAIL</h5>
-            <p className="mb-0">Agpdienenprivatelimited@gmail.com</p>
-          </div>
-        </motion.div>
+        {/* Contact Info + Map in one row */}
+       {/* Contact Info + Map in one row */}
+<motion.div
+  variants={itemVariants}
+  className="row mt-5 mx-auto w-100"
+>
+  {/* Contact Info */}
+  <div className="col-md-6">
+    <div className="bg-secondary text-white rounded-4 p-4 shadow h-100 d-flex align-items-center">
+      <div className="row w-100 text-center">
+        {/* Call Us */}
+        <div className="mb-4 col-md-6 mb-md-0 d-flex flex-column align-items-center">
+          <FaPhoneAlt size={28} className="mb-2" />
+          <h5 className="fw-bold">CALL US</h5>
+          <p className="mb-0">+91-7296988927</p>
+        </div>
+   {/* Email */}
+        <div className="col-md-6 d-flex flex-column align-items-center">
+          <FaEnvelope size={28} className="mb-2" />
+          <h5 className="fw-bold">EMAIL</h5>
+          <p className="mb-0 text-break">agpdienenprivatelimited@gmail.com</p>
+        </div>
+        {/* Location */}
+        <div className=" mb-4 mb-md-0 d-flex flex-column align-items-center">
+          <FaMapMarkerAlt size={28} className="mb-2" />
+          <h5 className="fw-bold">LOCATION</h5>
+          <p className="mb-0" style={{ fontSize: "0.9rem" }}>
+            Office number 38, second floor, Omaxe Celebration Mall,
+            Badshahpur Sohna Rd Hwy, Central Park II, Sector 48,
+            Gurugram, Haryana 122001
+          </p>
+        </div>
+
+     
+      </div>
+    </div>
+  </div>
+
+  {/* Map */}
+  <div className="col-md-6">
+    <div className="rounded-4 overflow-hidden shadow h-100">
+      <iframe
+        // src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.5938428143983!2d77.04274417495327!3d28.553586488942872!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d18b4aa1ed4e1%3A0xc1ec11ff9d7b7291!2sOmaxe%20Celebration%20Mall!5e0!3m2!1sen!2sin!4v1692109397684!5m2!1sen!2sin"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14034.917921378621!2d77.0181393554199!3d28.427418499999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d18748870d465%3A0x721233e4e1f3a60c!2sOmaxe%20Celebration%20Mall!5e0!3m2!1sen!2sin!4v1754984994998!5m2!1sen!2sin"
+        width="100%"
+        height="100%"
+        style={{ border: 0, minHeight: '250px' }}
+        allowFullScreen=""
+        loading="lazy"
+      ></iframe>
+    </div>
+    
+  </div>
+</motion.div>
+
       </div>
     </motion.div>
   );
