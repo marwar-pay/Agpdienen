@@ -1,7 +1,11 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { apiGet } from "@/api/apiMethods";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+import "swiper/css";
 
 import img from "../../assets/pinkcityimg/images/1.jpg";
 import img1 from "../../assets/pinkcityimg/images/2.jpg";
@@ -31,38 +35,35 @@ const CollectionList = () => {
     fetchCategories();
   }, []);
 
-  // Local images to loop through
+  // Local images
   const localImages = [img3, img1, img2, img4, img5, img, img7, img6];
 
   return (
     <div className="container my-5">
-      <div className="row g-4 justify-content-center">
+      <h2 className="text-center fw-bold mb-4">Shop by Category</h2>
+
+      <Swiper
+        modules={[Autoplay]}
+        autoplay={{ delay: 2000, disableOnInteraction: false }}
+        loop={true}
+        spaceBetween={20}
+        breakpoints={{
+          320: { slidesPerView: 4 }, // ✅ 4 cards in mobile
+          576: { slidesPerView: 4 },
+          768: { slidesPerView: 4 },
+          992: { slidesPerView: 5 },
+          1200: { slidesPerView: 6 },
+        }}
+      >
         {categories.length > 0 ? (
           categories.map((category, index) => (
-            <div
-              className="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-10"
-              key={index}
-            >
+            <SwiperSlide key={index}>
               <Link
                 href={`/products/allproducts?category=${category._id}`}
                 className="text-decoration-none"
               >
-                <div
-                  className="card h-100 border-0 shadow-sm hover-card"
-                  style={{
-                    borderRadius: "12px",
-                    transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                  }}
-                >
-                  <div
-                    className="position-relative"
-                    style={{
-                      height: "160px",
-                      overflow: "hidden",
-                      borderTopLeftRadius: "12px",
-                      borderTopRightRadius: "12px",
-                    }}
-                  >
+                <div className="text-center category-card">
+                  <div className="circle-img mx-auto">
                     <Image
                       src={localImages[index % localImages.length]}
                       alt={category.name}
@@ -70,28 +71,36 @@ const CollectionList = () => {
                       style={{ objectFit: "cover" }}
                     />
                   </div>
-                  <div className="card-body text-center p-3">
-                    <h6
-                      className="fw-semibold text-dark mb-0"
-                      style={{ fontSize: "14px" }}
-                    >
-                      {category.name}
-                    </h6>
-                  </div>
+                  <h6 className="mt-3 fw-semibold text-dark">
+                    {category.name}
+                  </h6>
                 </div>
               </Link>
-            </div>
+            </SwiperSlide>
           ))
         ) : (
           <p className="text-center w-100">Loading categories...</p>
         )}
-      </div>
+      </Swiper>
 
-      {/* Hover Effect Styles */}
-      <style jsx>{`
-        .hover-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.12);
+      <style>{`
+        .circle-img {
+          position: relative;
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          overflow: hidden;
+          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .circle-img:hover {
+          transform: scale(1.05);
+          box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .category-card h6 {
+          font-size: 14px;
         }
       `}</style>
     </div>
