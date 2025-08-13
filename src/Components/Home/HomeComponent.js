@@ -22,18 +22,18 @@ function HomeComponent() {
 
   return (
     <div>
-        <Navbar/>
-        <Hero/>
-        <CollectionList/>
-        <AllProduct/>
-        <About/>  
-        <Detail/> 
-        <AboutDetails/> 
-        <GridSection/>
-        <BestsellerSection/>
-        <ContactForm/>
-        <Testimonials/>
-        {/* <Newsletter/> */}
+      <Navbar />
+      <Hero />
+      <CollectionList />
+      <AllProduct />
+      <About />
+      <Detail />
+      <AboutDetails />
+      <GridSection />
+      <BestsellerSection />
+      <ContactForm />
+      <Testimonials />
+      {/* <Newsletter/> */}
     </div>
   )
 }

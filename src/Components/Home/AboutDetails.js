@@ -1,7 +1,7 @@
-
 'use client';
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import { ShieldCheck, Tag, Layers, Headphones, HeartHandshake } from 'lucide-react';
 
 const imageUrls = [
@@ -11,79 +11,110 @@ const imageUrls = [
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4var9vySpAMaBr7cyq6Cz8Brw-8pf-lCNCw&s",
   "https://m.media-amazon.com/images/I/51zVCML27yL._AC_UY1100_.jpg",
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ58Nq2wlgGiJ1PBZhSJZ6_fKCg3m-Q8QZFQMa2DgoEsHbiP2_xtOSBP3aP3JgyZxjgicY&usqp=CAU",
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRt956l9Psm8daq8-fU5b5ugU9EuDWsi-HsWg&s",
+  // "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRt956l9Psm8daq8-fU5b5ugU9EuDWsi-HsWg&s",
 ];
 
 const AboutDetails = () => {
+  const fadeUp = {
+    hidden: { opacity: 0, y: 50 },
+    visible: (i = 1) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: i * 0.2, duration: 0.6, ease: "easeOut" }
+    }),
+  };
+
   return (
-    <div className="bg-white py-5">
+    <section className="bg-light py-5">
       <div className="container">
-        <div className="row align-items-start">
-          {/* Left Text Column */}
-          <div className="col-lg-6 mb-4">
-            <h1 className="display-5 fw-light mb-4">
-              Bringing Families <br /> Together Through Fashion
-            </h1>
+        <motion.h1
+          className="display-5 fw-bold text-center mb-5"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUp}
+        >
+          Bringing Families Together Through Fashion
+        </motion.h1>
 
-            <h2 className="h3 fw-bold mb-2">Our Focus</h2>
-            <p className="mb-4 text-secondary">
-              Agpdienen Private Limited is dedicated to providing high-quality, stylish, and affordable clothing for families.
-              Whether it’s casual wear, festive attire, or everyday essentials, we have something special for everyone.
-            </p>
-
-            <h2 className="h3 fw-bold mb-2">Our Journey</h2>
-            <p className="mb-4 text-secondary">
-              Agpdienen Private Limited started with a dream of making quality family wear accessible to everyone.
-              Over the years, we have become a trusted name for families looking for trendy and comfortable clothing options.
-            </p>
-
-            <h2 className="h3 fw-bold mb-2">Our Commitment</h2>
-            <p className="mb-4 text-secondary">
-              We are committed to offering an unmatched shopping experience, ensuring that every family finds the perfect attire
-              for every occasion. At Agpdienen, we celebrate the joy of family through fashion.
-            </p>
-
-            {/* New Section */}
-            <h2 className="h3 fw-bold mb-3">Why Families Choose Us</h2>
-            <ul className="list-unstyled text-secondary">
-              <li className="d-flex align-items-center mb-3">
-                <ShieldCheck className="me-2 text-primary" size={20} />
-                <span><strong>Quality You Can Trust:</strong> Every piece is crafted with care, ensuring comfort and durability.</span>
-              </li>
-              <li className="d-flex align-items-center mb-3">
-                <Tag className="me-2 text-success" size={20} />
-                <span><strong>Affordable Style:</strong> Trendy designs at prices that fit every family’s budget.</span>
-              </li>
-              <li className="d-flex align-items-center mb-3">
-                <Layers className="me-2 text-warning" size={20} />
-                <span><strong>Wide Variety:</strong> From festive outfits to everyday wear — something for all ages and occasions.</span>
-              </li>
-              <li className="d-flex align-items-center mb-3">
-                <Headphones className="me-2 text-danger" size={20} />
-                <span><strong>Customer-Centric Service:</strong> Friendly support and hassle-free returns make shopping stress-free.</span>
-              </li>
-              <li className="d-flex align-items-center">
-                <HeartHandshake className="me-2 text-pink" size={20} />
-                <span><strong>Celebrating Togetherness:</strong> Our collections are designed to bring families closer through coordinated styles.</span>
-              </li>
-            </ul>
+        <div className="row g-4">
+          {/* Left Side Cards */}
+          <div className="col-lg-6">
+            {[
+              {
+                icon: <ShieldCheck className="text-primary" size={28} />,
+                title: "Quality You Can Trust",
+                text: "Every piece is crafted with care, ensuring comfort and durability."
+              },
+              {
+                icon: <Tag className="text-success" size={28} />,
+                title: "Affordable Style",
+                text: "Trendy designs at prices that fit every family’s budget."
+              },
+              {
+                icon: <Layers className="text-warning" size={28} />,
+                title: "Wide Variety",
+                text: "From festive outfits to everyday wear — something for all ages."
+              },
+              {
+                icon: <Headphones className="text-danger" size={28} />,
+                title: "Customer-Centric Service",
+                text: "Friendly support and hassle-free returns make shopping stress-free."
+              },
+              {
+                icon: <HeartHandshake className="text-pink" size={28} />,
+                title: "Celebrating Togetherness",
+                text: "Collections designed to bring families closer through coordinated styles."
+              }
+            ].map((item, index) => (
+              <motion.div
+                key={index}
+                className="card shadow-sm border-0 p-3 mb-3"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeUp}
+                custom={index}
+              >
+                <div className="d-flex align-items-center">
+                  <div className="me-3">{item.icon}</div>
+                  <div>
+                    <h5 className="fw-bold mb-1">{item.title}</h5>
+                    <p className="mb-0 text-muted">{item.text}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
 
-          {/* Right Image Grid Column */}
-          <div className="col-lg-6 d-flex flex-wrap gap-3 justify-content-center">
-            {imageUrls.map((src, index) => (
-              <div key={index} className="rounded overflow-hidden" style={{ width: '140px', height: '180px' }}>
-                <img
-                  src={src}
-                  alt={`img-${index}`}
-                  className="img-fluid w-100 h-100 object-fit-cover rounded shadow-sm"
-                />
-              </div>
-            ))}
+          {/* Right Side Image Cards */}
+          <div className="col-lg-6">
+            <div className="row g-3">
+              {imageUrls.map((src, index) => (
+                <motion.div
+                  className="col-6 col-md-4"
+                  key={index}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={fadeUp}
+                  custom={index}
+                >
+                  <div className="card border-0 shadow-sm rounded overflow-hidden">
+                    <img
+                      src={src}
+                      alt={`img-${index}`}
+                      className="img-fluid w-100 h-100 object-fit-cover"
+                      style={{ height: '180px' }}
+                    />
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
