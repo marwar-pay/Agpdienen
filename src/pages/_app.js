@@ -12,15 +12,15 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function App({ Component, pageProps }) {
   return (
-   <>
+    <>
 
-<CartProvider>
-{/* <Provider store={store}> */}
+      <CartProvider>
+        {/* <Provider store={store}> */}
 
-          <Component {...pageProps} />
-          <ToastContainer position="top-right" autoClose={2000} />
-      {/* </Provider> */}
+        <Component {...pageProps} />
+        <ToastContainer position="top-right" autoClose={2000} />
+        {/* </Provider> */}
       </CartProvider>
-      </>
+    </>
   );
 }

@@ -773,6 +773,7 @@ const AllProduct = () => {
             const discount = calculateDiscount(product.actualPrice, product.price);
             return (
               <Col
+                xs={6}  // 👈 Added for 2 cards in mobile view
                 md={3}
                 key={product._id}
                 className="mb-4"
@@ -856,7 +857,7 @@ const AllProduct = () => {
                 </Card>
 
                 {/* Hover Styles */}
-                <style jsx>{`
+                <style >{`
     .product-card:hover {
       transform: translateY(-6px);
       box-shadow: 0 8px 20px rgba(0,0,0,0.12);

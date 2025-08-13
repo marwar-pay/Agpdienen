@@ -39,115 +39,69 @@ export default function Testimonials() {
       image: "https://randomuser.me/api/portraits/women/29.jpg",
       rating: 5,
     },
-    {
-      name: 'Vikram R.',
-      role: 'Business Professional',
-      feedback:
-        'Their formal wear section is top-notch. I found great outfits for work and weekend wear in one place.',
-      image: "https://randomuser.me/api/portraits/men/12.jpg",
-      rating: 4,
-    },
-    {
-      name: 'Neha K.',
-      role: 'Fashion Enthusiast',
-      feedback:
-        'Stylish, comfortable, and budget-friendly — Agpdienen ticks all the boxes for me!',
-      image: "https://randomuser.me/api/portraits/women/77.jpg",
-      rating: 5,
-    },
-    {
-      name: 'Arjun & Meera',
-      role: 'Newly Married Couple',
-      feedback:
-        'Loved the matching outfits section! Perfect for our honeymoon and family gatherings.',
-      image: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=200&h=200&fit=crop",
-      rating: 5,
-    },
-    {
-      name: 'Sonia L.',
-      role: 'Regular Customer',
-      feedback:
-        'They remember my preferences and offer great suggestions every time I shop. Feels personal!',
-      image: "https://randomuser.me/api/portraits/women/5.jpg",
-      rating: 5,
-    },
-    {
-      name: 'Karan M.',
-      role: 'Happy Father',
-      feedback:
-        'Finally a brand where I can shop for my kids, my wife, and myself in one go. Saves time and money!',
-      image: "https://randomuser.me/api/portraits/men/55.jpg",
-      rating: 4,
-    },
-    {
-      name: 'The Gupta Family',
-      role: 'Loyal Customers',
-      feedback:
-        'From festive clothes to daily wear, they’ve become our go-to brand for all family clothing needs.',
-      image: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=200&h=200&fit=crop",
-      rating: 5,
-    },
   ];
 
   const settings = {
     dots: true,
     infinite: true,
-    speed: 500,
-    slidesToShow: 3, // Show 3 at a time
+    speed: 600,
+    slidesToShow: 3,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 4000,
+    autoplaySpeed: 3500,
     arrows: false,
     responsive: [
       {
-        breakpoint: 992, // Tablets
-        settings: {
-          slidesToShow: 2,
-        },
+        breakpoint: 1024,
+        settings: { slidesToShow: 2 }
       },
       {
-        breakpoint: 768, // Mobile
-        settings: {
-          slidesToShow: 1,
-        },
-      },
-    ],
+        breakpoint: 640,
+        settings: { slidesToShow: 1 }
+      }
+    ]
   };
 
   return (
-    <div className="container py-5">
-      <h1 className="text-center text-pink mb-4">What Our Customers Say</h1>
-      <p className="text-center text-secondary mb-5">
-        Hear what our customers have to say about their experience shopping for family wear on PinkCity.
-      </p>
+    <section className="py-16 bg-gradient-to-b from-pink-50 to-white">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-pink-600">What Our Customers Say</h2>
+          <p className="text-gray-600 mt-2 max-w-2xl mx-auto">
+            Hear what our customers have to say about their experience shopping for family wear on PinkCity.
+          </p>
+        </div>
 
-      <Slider {...settings}>
-        {testimonials.map((testimonial, index) => (
-          <div key={index} className="px-3">
-            <div className="card border-0 shadow-sm text-center p-4 h-100">
-              <Image
-                src={testimonial.image}
-                alt={testimonial.name}
-                width={100}
-                height={100}
-                className="rounded-circle mx-auto mb-3"
-              />
-              <h5 className="text-dark">{testimonial.name}</h5>
-              <h6 className="text-muted">{testimonial.role}</h6>
-              <div className="d-flex justify-content-center mb-3">
-                {[...Array(5)].map((_, i) => (
-                  <FaStar
-                    key={i}
-                    color={i < testimonial.rating ? '#ffc107' : '#e4e5e9'}
-                    size={20}
+        <Slider {...settings}>
+          {testimonials.map((testimonial, index) => (
+            <div key={index} className="px-3 mb-6">
+              <div className="bg-white rounded-2xl shadow-lg p-6 h-full flex flex-col items-center text-center transition-transform duration-300 hover:scale-[1.03] hover:shadow-xl">
+                <div className="relative w-24 h-24 mb-4">
+                  <Image
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    width={96}
+                    height={96}
+                    className="rounded-full border-4 border-pink-100 object-cover"
                   />
-                ))}
+                </div>
+                <h5 className="text-lg font-semibold text-gray-900">{testimonial.name}</h5>
+                <span className="text-sm text-pink-500 mb-3">{testimonial.role}</span>
+                <div className="flex justify-center mb-3">
+                  {[...Array(5)].map((_, i) => (
+                    <FaStar
+                      key={i}
+                      color={i < testimonial.rating ? '#fbbf24' : '#e5e7eb'}
+                      size={18}
+                    />
+                  ))}
+                </div>
+                <p className="text-gray-600 leading-relaxed text-sm">{testimonial.feedback}</p>
               </div>
-              <p className="text-secondary">{testimonial.feedback}</p>
             </div>
-          </div>
-        ))}
-      </Slider>
-    </div>
+          ))}
+        </Slider>
+      </div>
+    </section>
   );
 }

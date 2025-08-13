@@ -130,7 +130,7 @@ useEffect(() => {
 
             {/* Mobile Menu Button */}
             <button className="navbar-toggler" type="button" onClick={() => setMenuOpen(true)}>
-              <span className="navbar-toggler-icon bg-white"></span>
+              <span className="navbar-toggler-icon "></span>
             </button>
 
             {/* Desktop Navigation */}
@@ -204,7 +204,7 @@ useEffect(() => {
                     )}
                   </div>
                 </li>
-<li className="nav-item"><Link href="/orderhistory" className="text-black mx-3">Order History</Link></li>
+                 <li className="nav-item"><Link href="/orderhistory" className="text-black mx-3">Order History</Link></li>
                 <li className="nav-item"><Link href="/contact" className="text-black mx-3">Contact Us</Link></li>
               </ul>
             </div>
@@ -213,137 +213,170 @@ useEffect(() => {
       </header>
 
       {/* Mobile Curtain Menu Overlay */}
-      <div className={`overlay ${menuOpen ? "open" : ""}`} >
-        <button className="close-btn" onClick={() => setMenuOpen(false)}>
-          <IoMdClose size={24} color=" #f41d19" />
-        </button>
-        <ul className="menu-list" >
-          <li><Link href="/" onClick={() => setMenuOpen(false)}>Home</Link></li>
-         
-          <li className="nav-item">
-                   <div
-                    style={{
-                      position: "relative",
-                      display: "inline-block",
-                    }}
-                    className=" mx-3 droplinkstylem"
-                  >
-                    <button onClick={toggleDropdown}>Products</button>
-                    {dropdownVisible && (
-                      <div
-                        style={{
-                          position: "absolute",
-                          top: "100%",
-                          left: "0",
-                          background: "white",
-                          border: "1px solid #ccc",
-                          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                          zIndex: 1000,
-                          borderRadius: "5px",
-                          width: "200px",
-                        }}
-                      >
-                        <Link
-                      href={`/products/allproducts`}
-                      > 
-                        <div style={{
-                                  padding: "8px 16px",
-                                  cursor: "pointer",
-                                  borderBottom: "1px solid #f0f0f0"}}>  All Products</div>
-                    
-                    </Link>
-                        {categories.length > 0 ? (
-                          categories.map((category) => (
-                            <Link
-                              href={`/products/allproducts?category=${category._id}`}
-                              key={category._id}
-                              style={{ color: ' #f41d19;' }}
-                            >
-                              <div
-                                style={{
-                                  padding: "8px 16px",
-                                  cursor: "pointer",
-                                  // borderBottom: "1px solid #f0f0f0",
-                                }}
-                                onClick={() => setDropdownVisible(false) && setMenuOpen(false)}
-                              >
-                                {category.name}
-                              </div>
-                            </Link>
-                          ))
-                        ) : (
-                          <div
-                            style={{
-                              padding: "8px 16px",
-                              color: "#888",
-                            }}
-                          >
-                            No categories found
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </li>
-                 <li><Link href="/about" onClick={() => setMenuOpen(false)}>About</Link></li>
-          <li><Link href="/orderhistory" onClick={() => setMenuOpen(false)}>Order History</Link></li>
-          <li><Link href="/contact" onClick={() => setMenuOpen(false)}>Contact Us</Link></li>
-        </ul>
-      </div>
+     {/* Mobile Curtain Menu Overlay */}
+<div className={`mobile-menu-overlay ${menuOpen ? "open" : ""}`}>
+  <div className="menu-header">
+    <button className="close-btn" onClick={() => setMenuOpen(false)}>
+      <IoMdClose size={28} />
+    </button>
+    <h3 className="menu-title">Menu</h3>
+  </div>
 
-      {/* CSS Styles */}
-      <style jsx>{`
-        .overlay {
-          height: 100%;
-          width: 0;
-          position: fixed;
-          z-index: 1000;
-          top: 0;
-          right: 0;
-          background-color: #fff;
-          overflow-x: hidden;
-          transition: 0.5s;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-          justify-content: center;
-        }
+  <div className="menu-content">
+    <div className="menu-card" onClick={() => setMenuOpen(false)}>
+      <Link href="/">🏠 Home</Link>
+    </div>
 
-        .overlay.open {
-          width: 30%;
-        }
+    <div className="menu-card dropdown-card">
+      <button onClick={toggleDropdown}>
+        🛍 Products
+      </button>
+      {dropdownVisible && (
+        <div className="dropdown-list">
+          <Link href="/products/allproducts" onClick={() => setMenuOpen(false)}>
+            All Products
+          </Link>
+          {categories.length > 0 ? (
+            categories.map((category) => (
+              <Link
+                href={`/products/allproducts?category=${category._id}`}
+                key={category._id}
+                onClick={() => setMenuOpen(false)}
+              >
+                {category.name}
+              </Link>
+            ))
+          ) : (
+            <span className="no-category">No categories found</span>
+          )}
+        </div>
+      )}
+    </div>
 
-        .overlay .close-btn {
-          position: absolute;
-          top: 15px;
-          right: 25px;
-          background: none;
-          border: none;
-          cursor: pointer;
-        }
+    <div className="menu-card" onClick={() => setMenuOpen(false)}>
+      <Link href="/about">ℹ️ About</Link>
+    </div>
+    <div className="menu-card" onClick={() => setMenuOpen(false)}>
+      <Link href="/orderhistory">📦 Order History</Link>
+    </div>
+    <div className="menu-card" onClick={() => setMenuOpen(false)}>
+      <Link href="/contact">📞 Contact Us</Link>
+    </div>
+  </div>
+</div>
 
-        .overlay .menu-list {
-          list-style: none;
-          padding: 0;
-          text-align: center;
-        }
+<style jsx>{`
+  .mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    height: 100%;
+    background: #ffffff;
+    box-shadow: -5px 0px 20px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    transition: right 0.4s ease;
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+  }
 
-        .overlay .menu-list li {
-          padding: 10px 0;
-        }
+  .mobile-menu-overlay.open {
+    right: 0;
+  }
 
-        .overlay .menu-list a,.droplinkstylem a {
-          font-size: 22px;
-          color: red;
-          text-decoration: none;
-        }
+  .menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
+  }
 
-        .overlay .menu-list a,.droplinkstylem a :hover {
-          text-decoration: underline;
-          color: #000;
-        }
-      `}</style>
+  .menu-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  .close-btn {
+    background: #f5f5f5;
+    border: none;
+    padding: 6px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .close-btn:hover {
+    background: #e4e4e4;
+  }
+
+  .menu-content {
+    padding: 16px;
+    overflow-y: auto;
+  }
+
+  .menu-card {
+    background: #f9f9f9;
+    padding: 14px 16px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    transition: transform 0.2s ease, background 0.2s ease;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .menu-card:hover {
+    transform: translateY(-2px);
+    background: #f1f1f1;
+  }
+
+  .menu-card a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+  }
+
+  .dropdown-card button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: 500;
+    width: 100%;
+    text-align: left;
+    padding: 0;
+    cursor: pointer;
+    color: #333;
+  }
+
+  .dropdown-list {
+    margin-top: 8px;
+    background: #fff;
+    border-radius: 8px;
+    padding: 8px 0;
+    border: 1px solid #f0f0f0;
+  }
+
+  .dropdown-list a {
+    display: block;
+    padding: 8px 16px;
+    color: #555;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.2s ease;
+  }
+  .dropdown-list a:hover {
+    background: #f8f8f8;
+  }
+
+  .no-category {
+    display: block;
+    padding: 8px 16px;
+    color: #999;
+    font-size: 14px;
+  }
+`}</style>
+
     </div>
   );
 }

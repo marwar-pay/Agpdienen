@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Img1 from '../../assets/images/H5.jpg';
-import Img2 from '../../assets/images/H2.jpg';
+import Img2 from '../../assets/images/H8.jpg';
 import Img3 from '../../assets/images/H3.jpg';
 import Img4 from '../../assets/images/H4.jpg';
+import Img5 from '../../assets/images/H9.jpg';
+import Img6 from '../../assets/images/H10.jpg';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Hero = () => {
@@ -16,35 +18,44 @@ const Hero = () => {
       id: 1,
       image: Img1,
       title: "Bold Looks. Effortless Style.",
-      topic: "Men's wear",
-      description: "Discover our signature collection blending comfort and attitude.",
-      author: "Timeless Streetwear"
+      topic: "Women's Wear",
+      description: "Explore chic, comfortable outfits designed to elevate your everyday look.",
+      author: "Elegant Trends"
     },
     {
       id: 2,
       image: Img2,
       title: "Minimal, Versatile, Made to Move.",
-      topic: "Women's Wear",
-      description: "From cozy basics to premium fits—outfits that go with everything.",
-      author: "Everyday Essentials"
+      topic: "Men's Wear",
+      description: "Tailored staples and modern fits for work, weekends, and everything in between.",
+      author: "Refined Classics"
     },
     {
       id: 3,
       image: Img3,
-      title: "Fresh Drops You’ll Live In.",
-      topic: "Cloths",
-      description: "Meet our newest arrivals—handpicked to upgrade your daily wardrobe.",
-      author: "New Season. New Energy."
+      title: "Dress Smart. Work Smarter.",
+      topic: "Professional Wear",
+      description: "Polished and powerful looks that inspire confidence in every meeting.",
+      author: "Executive Essentials"
     },
     {
       id: 4,
       image: Img4,
       title: "Performance Meets Fashion.",
-      topic: "Cloths",
-      description: "Activewear that transitions from workouts to weekends.",
-      author: "Made for Movement"
-    }
+      topic: "Beast Of Collections",
+      description: "Bold statement pieces built for style that commands attention.",
+      author: "Fearless Originals"
+    },
+    {
+      id: 5,
+      image: Img5,
+      title: "Playful, Stylish, and Comfy.",
+      topic: "Kids Wear",
+      description: "Fun, colorful outfits designed to keep up with every adventure.",
+      author: "Little Style Icons"
+    },
   ];
+
 
   const goToSlide = (index) => {
     setCurrentSlide(index);
@@ -94,7 +105,7 @@ const Hero = () => {
   ];
 
   return (
-    <div className="position-relative overflow-hidden" style={{ height: '100vh', backgroundColor: '#000' }}>
+    <div className="position-relative overflow-hidden" style={{ height: '100vh', backgroundColor: ' ' }}>
       {/* Progress bar */}
       <div
         ref={progressBarRef}
@@ -193,7 +204,7 @@ const Hero = () => {
           zIndex: 100,
         }}
       >
-        {displayThumbnails.slice(0, 3).map((slide, index) => {
+        {displayThumbnails.map((slide, index) => {
           const isActive = slide.id === slides[currentSlide].id;
           return (
             <div
