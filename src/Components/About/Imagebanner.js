@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import img from '../../assets/pinkcityimg/3.jpg';
+import img from '../../assets/pinkcityimg/i1.jpg';
 export default function ImagePage() {
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>

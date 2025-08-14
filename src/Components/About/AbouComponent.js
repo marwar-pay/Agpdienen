@@ -8,11 +8,11 @@ import AboutDetails from "../Home/AboutDetails"
 function AbouComponent() {
   return (
     <div>
-      <Header/>
- <ImagePage/> 
- <AboutDetails/>      
-<About/>
-<Testimonials/>
+      <Header />
+      <ImagePage />
+      <AboutDetails />
+      <About />
+      <Testimonials />
     </div>
   )
 }
