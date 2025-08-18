@@ -117,7 +117,9 @@ a {
 }
 
 .product-title::after {
-  border-color: #f41d19 #f41d19 transparent transparent;
+  /* border-color: #f41d19 #f41d19 transparent transparent; */
+   border: 1px solid rgba(255, 255, 255, 0.25);
+
 }
 
 .product-title {
@@ -134,7 +136,9 @@ a {
   text-transform: uppercase;
   margin-top: 0px;
   margin-left: -21px;
-  background-color: #f41d19;
+  /* background-color: #f41d19; */
+    background: linear-gradient(135deg, rgba(80, 200, 180, 0.85), rgba(250, 130, 150, 0.85));
+
 }
 
 

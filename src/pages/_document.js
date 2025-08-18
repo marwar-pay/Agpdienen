@@ -10,6 +10,7 @@ export default function Document() {
       <link rel="icon" type="image/svg+xml/png" href="assets/logo.png" />
       {/* <meta name="viewport" content="width=device-width, initial-scale=1.0"/> */}
       <meta name="robots" content="index, follow" />
+      <meta name="google-site-verification" content="AYRuZPPy7CY-97bqRlnOcFI_tkBkF2ji0owUSQ3G41s" />
   <meta name="description" content="Agpdienen offers stylish and comfortable clothing for men, women, and kids. Discover everyday essentials to festive outfits – all in one place." />
   <meta name="keywords" content="family clothing, matching outfits, Indian fashion, kids wear, Agpdienen" />
 

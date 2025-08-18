@@ -11,7 +11,8 @@ const nextConfig = {
       'thumbs.dreamstime.com',
       'images.unsplash.com',
       "randomuser.me",
-      "images.unsplash.com"
+      "images.unsplash.com",
+      "res.cloudinary.com",
     ],
   },
 };

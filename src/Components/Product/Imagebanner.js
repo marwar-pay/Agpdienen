@@ -1,21 +1,32 @@
+// import Image from 'next/image';
+// import img from '../../assets/pinkcityimg/3.jpg';
+// export default function ImagePage() {
+//   return (
+//     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
+//       <Image
+//         src={img} // Place your image inside the 'public' folder
+//         alt="Your Image Description"
+//         width={'90%'} // You can adjust the width as needed
+//         height={600} // You can adjust the height as needed
+//       />
+//     </div>
+//   );
+// }
+
+
 'use client';
 
-import { apiGet } from '@/api/apiMethods';
 import { useEffect, useState } from 'react';
 
-const Title = ({ Heading, Subheading }) => {
+const ImagePage = ({ Heading, Subheading }) => {
   const [banner, setBanner] = useState(null);
-
-
-
-
 
   useEffect(() => {
     const fetchBanner = async () => {
       try {
-        const res = await apiGet('api/banner/contact-us');
-        // const data = await res.json();
-        setBanner(res.data);
+        const res = await fetch('https://ajay.yunicare.in/api/banner/about');
+        const data = await res.json();
+        setBanner(data);
       } catch (error) {
         console.error('Error fetching banner:', error);
       }
@@ -56,4 +67,4 @@ const Title = ({ Heading, Subheading }) => {
   );
 };
 
-export default Title;
+export default ImagePage;
