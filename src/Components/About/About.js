@@ -37,7 +37,7 @@ const About = () => {
             {/* Heading */}
             <h2 className="fw-bold mb-3 lh-base">
               Your Trusted & Passionate Partner in{" "}
-              <span className="text-red">E-Commerce Success</span>
+              <span className="gradient-text">E-Commerce Success</span>
             </h2>
             <p className="text-muted mb-4">
               At <strong>Agpdienen Private Limited</strong>, we’re more than just a service provider —
@@ -49,10 +49,10 @@ const About = () => {
 
             {/* Buttons */}
             <div className="d-flex flex-wrap gap-3">
-              <a href="#projects" className="btn btn-primary px-4 py-2">
+              <a href="#projects" className="btn glassy-btn px-4 py-2">
                 See Projects
               </a>
-              <a href="#details" className="btn btn-outline-dark px-4 py-2">
+              <a href="#details" className="btn glassy-btn btn-outline-dark px-4 py-2">
                 More Details
               </a>
             </div>

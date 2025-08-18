@@ -4,6 +4,7 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { apiGet } from '@/api/apiMethods';
 import InvoiceTemplate from '@/Components/Product/Invoice';
+import Header from '@/Layout/Header';
 
 export default function InvoicePage() {
   const router = useRouter();
@@ -68,6 +69,7 @@ export default function InvoicePage() {
 
   return (
     <div>
+      <Header/>
       <div className="max-w-[800px] mx-auto">
         <button onClick={generatePDF} className="mb-4 btn-primary" style={{ color: '#fff', backgroundColor:'#dc3545',padding: '10px', borderRadius: '2em' }}>
           Download PDF

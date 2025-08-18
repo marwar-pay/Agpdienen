@@ -1,4 +1,5 @@
 import AllProduct from "@/Components/Product/AllProduct"
+import ImagePage from "@/Components/Product/Imagebanner"
 import Header from "@/Layout/Header"
 
 
@@ -7,6 +8,7 @@ function Allproducts() {
     <div>
         <Header/>
         <div>
+          <ImagePage/>
         <AllProduct/>
         </div>
         </div>

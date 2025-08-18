@@ -6,16 +6,13 @@ import { useEffect, useState } from 'react';
 const Title = ({ Heading, Subheading }) => {
   const [banner, setBanner] = useState(null);
 
-
-
-
-
   useEffect(() => {
     const fetchBanner = async () => {
       try {
         const res = await apiGet('api/banner/contact-us');
-        // const data = await res.json();
-        setBanner(res.data);
+        if (res?.data && Array.isArray(res.data) && res.data.length > 0) {
+          setBanner(res.data[0]); // ✅ take the first banner
+        }
       } catch (error) {
         console.error('Error fetching banner:', error);
       }
@@ -42,12 +39,13 @@ const Title = ({ Heading, Subheading }) => {
           <div className="mx-auto" style={{ maxWidth: '960px' }}>
             <h1 className="fw-bold display-4 mb-3">{Heading}</h1>
             <h2 className="fw-medium fs-3">{Subheading}</h2>
-            {banner && banner.altText && (
-              // <h1 className="mt-3">{banner.altText}</h1>
-              <div
-  dangerouslySetInnerHTML={{ __html: banner?.altText }}
-/>
 
+            {/* Render altText (supports HTML) */}
+            {banner?.altText && (
+              <div
+                className="mt-3"
+                dangerouslySetInnerHTML={{ __html: banner.altText }}
+              />
             )}
           </div>
         </div>

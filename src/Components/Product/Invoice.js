@@ -1,4 +1,4 @@
-import Header from '@/Layout/Header';
+
 import { format } from 'date-fns';
 
 // Function to generate a random 4-character alphanumeric string (numbers and letters)
@@ -17,7 +17,7 @@ export default function InvoiceTemplate({ order }) {
 
   return (
     <>
-      <Header />
+     
       <div >
         <div className="max-w-[800px] mx-auto p-4 bg-white shadow-lg rounded-lg border border-gray-300">
           <div className="flex justify-between items-start mb-4 pt-2 pb-2">

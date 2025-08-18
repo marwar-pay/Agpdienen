@@ -1,21 +1,6 @@
-// import Image from 'next/image';
-// import img from '../../assets/pinkcityimg/3.jpg';
-// export default function ImagePage() {
-//   return (
-//     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
-//       <Image
-//         src={img} // Place your image inside the 'public' folder
-//         alt="Your Image Description"
-//         width={'90%'} // You can adjust the width as needed
-//         height={600} // You can adjust the height as needed
-//       />
-//     </div>
-//   );
-// }
-
-
 'use client';
 
+import { apiGet } from '@/api/apiMethods';
 import { useEffect, useState } from 'react';
 
 const ImagePage = ({ Heading, Subheading }) => {
@@ -24,9 +9,10 @@ const ImagePage = ({ Heading, Subheading }) => {
   useEffect(() => {
     const fetchBanner = async () => {
       try {
-        const res = await fetch('https://ajay.yunicare.in/api/banner/about');
-        const data = await res.json();
-        setBanner(data);
+        const res = await apiGet('api/banner/products');
+        if (res?.data && Array.isArray(res.data) && res.data.length > 0) {
+          setBanner(res.data[0]); // ✅ take the first banner
+        }
       } catch (error) {
         console.error('Error fetching banner:', error);
       }
@@ -46,19 +32,21 @@ const ImagePage = ({ Heading, Subheading }) => {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
-          minHeight: '70vh',
+          minHeight: '50vh',
+          width:'100%',
         }}
       >
         <div className="container px-3">
           <div className="mx-auto" style={{ maxWidth: '960px' }}>
             <h1 className="fw-bold display-4 mb-3">{Heading}</h1>
             <h2 className="fw-medium fs-3">{Subheading}</h2>
-            {banner && banner.altText && (
-              // <h1 className="mt-3">{banner.altText}</h1>
-              <div
-  dangerouslySetInnerHTML={{ __html: banner?.altText }}
-/>
 
+            {/* Render altText (supports HTML) */}
+            {banner?.altText && (
+              <div
+                className="mt-3"
+                dangerouslySetInnerHTML={{ __html: banner.altText }}
+              />
             )}
           </div>
         </div>

@@ -47,7 +47,7 @@ const Detail = () => {
          <div className='col-lg-6 col-md-6 col-sm-6 col-xsm-1'>
          <div id="slide2" className="slide">
            <div className="title">
-             <h1>Premium Quality Fabrics</h1>
+             <h1 class>Premium Quality Fabrics</h1>
              <p>
                Our clothing is made from high-quality materials that offer comfort
                and durability. Whether it's cotton, silk, or denim, our fabrics
