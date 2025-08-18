@@ -4,6 +4,8 @@ import { Container, Row, Col, Button, Form, Card, ListGroup, Spinner, Modal } fr
 import { useRouter } from 'next/router';
 import Header from '@/Layout/Header';
 import { toast } from 'react-toastify';
+import ImagePage from './Banner';
+
 
 const OrderHistory = () => {
   const [orders, setOrders] = useState([]);
@@ -28,33 +30,7 @@ const OrderHistory = () => {
       router.push("/login");
       return;
     }
-    // const fetchOrders = async () => {
-    //   try {
-       
-    //     const response = await apiGet('api/order/orders');
-    //     if (response.data && response.data.orders) {
-    //       setOrders(response.data.orders);
-    //       setFilteredOrders(response.data.orders);
-    //     } else {
-    //       setError('No orders found');
-    //     }
-    //   } catch (error) {
-    //     if (error.response) {
-    //       // Server responded with a status other than 2xx
-    //       console.error("Error response:", error.response.data);
-    //     } else if (error.request) {
-    //       //
-    //       console.error("No response received:", error.request);
-    //     } else {
-    //       // Something else happened
-    //       console.error("Error message:", error.message);
-    //     }
-    //     setError('No orders found. Please place an order.');
-    //   }
-    //    finally {
-    //     setLoading(false);
-    //   }
-    // };
+   
 
 
     const fetchOrders = async () => {
@@ -148,8 +124,11 @@ const OrderHistory = () => {
     <>
     <Header/>
     <div>
+      <ImagePage/>
     <Container>
-    <Row className="mt-4">
+      
+    <Row className="mt-20">
+      
   <Col md={12}>
     <h2 className="text-center font-weight-bold mb-4">Order Details</h2>
     <Row className=" mb-4">
