@@ -1,6 +1,4 @@
 'use client';
-import Image from "next/image";
-import img from '../../assets/pinkcityimg/Login.gif';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
@@ -8,7 +6,6 @@ import { useState } from "react";
 import { apiPost } from "@/api/apiMethods";
 import { useRouter } from "next/navigation";
 import Header from "@/Layout/Header";
-
 
 export default function RegistrationPage() {
   const referenceWebsite = process.env.NEXT_PUBLIC_REFERENCE_WEBSITE;
@@ -38,17 +35,16 @@ export default function RegistrationPage() {
     setLoading(true);
 
     try {
-      const res = await apiPost('api/auth/signUp', formData);
-      toast.success("register successful!");
+      await apiPost('api/auth/signUp', formData);
+      toast.success("Registered successfully!");
       setMessage('User registered successfully');
-      setTimeout(() => router.push('/login'), 2000); // Navigate to /login after 2 seconds
+      setTimeout(() => router.push('/login'), 2000);
     } catch (error) {
-      toast.error("register failed!");
-      // Handle duplicate email error specifically
+      toast.error("Registration failed!");
       if (error.response && error.response.data.includes('duplicate key error')) {
-        setMessage('email already exists. Please use a different email address.');
+        setMessage('Email already exists. Please use a different email address.');
       } else {
-        setMessage('Error registering user: ' + (error.response?.data || error.message));
+        setMessage('Error: ' + (error.response?.data || error.message));
       }
     } finally {
       setLoading(false);
@@ -58,173 +54,147 @@ export default function RegistrationPage() {
   return (
     <>
       <Header />
-      <div style={styles.overlayContainer}>
-        <h1 style={{ position: "absolute", top: "140px" }}>Register</h1>
-        <div style={{...styles.registrationContainer,}}>
-          {/* <div style={styles.leftPane}>
-          <h2 style={styles.heading}>REGISTER</h2>
-          <p style={styles.subText}>Create your account to access Orders, Wishlist, and Recommendations</p>
-          <Image
-            src={img} // Replace this with the appropriate image URL
-            alt="Registration Illustration"
-            // style={styles.image}
-          />
-        </div> */}
-          <div style={styles.rightPane}>
-            <form style={styles.form} onSubmit={handleSubmit}>
-
-              <input
-                type="text"
-                style={styles.input}
-                className="form-control"
-                id="firstName"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
-                placeholder="Enter Your First Name"
-                required
-              />
-              <input
-                type="text"
-                className="form-control"
-                id="lastName"
-                name="lastName"
-                style={styles.input}
-                value={formData.lastName}
-                onChange={handleChange}
-                placeholder="Enter Your Last Name"
-                required
-              />
-              <input
-                type="email"
-                className="form-control"
-                id="email"
-                style={styles.input}
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="name@example.com"
-                required
-              />
-
-              <input
-                type="password"
-                className="form-control"
-                id="Password"
-                name="password"
-                style={styles.input}
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="Password"
-                required
-              />
-
-              <input
-                type="tel"
-                className="form-control"
-                id="mobile"
-                name="mobile"
-                style={styles.input}
-                value={formData.mobile}
-                onChange={handleChange}
-                placeholder="Mobile No"
-                required
-              />
-
-              <div className="text-center">
-                <button className="my-2 mx-auto btn btn-dark" type="submit" style={styles.registerButton} disabled={loading}>
-                  {loading ? 'Registering...' : 'Register'}
-                </button>
-              </div>
-              <Link href="/login" style={styles.loginButton}>Already have an account? Login
-              </Link>
-
-            </form>
-          </div>
+      <div style={styles.pageWrapper}>
+        <div style={styles.overlay}></div>
+        <div style={styles.registerCard}>
+          <h2 style={styles.title}>Create Account 🛍️</h2>
+          <p style={styles.subtitle}>Join us to explore the best fashion</p>
+          <form style={styles.form} onSubmit={handleSubmit}>
+            <input
+              type="text"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              style={styles.input}
+              placeholder="First Name"
+              required
+            />
+            <input
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              style={styles.input}
+              placeholder="Last Name"
+              required
+            />
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              style={styles.input}
+              placeholder="Email Address"
+              required
+            />
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              style={styles.input}
+              placeholder="Password"
+              required
+            />
+            <input
+              type="tel"
+              name="mobile"
+              value={formData.mobile}
+              onChange={handleChange}
+              style={styles.input}
+              placeholder="Mobile Number"
+              required
+            />
+            <button type="submit" style={styles.registerButton} disabled={loading}>
+              {loading ? 'Registering...' : 'Register'}
+            </button>
+            <Link href="/login" style={styles.loginLink}>
+              Already have an account? Login
+            </Link>
+          </form>
+          {message && <p style={{ color: "#ffcccc", marginTop: "10px" }}>{message}</p>}
         </div>
-        {/* <ToastContainer position="top-right" autoClose={2000} /> */}
+        <ToastContainer />
       </div>
     </>
   );
 }
 
 const styles = {
-  overlayContainer: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+  pageWrapper: {
     height: "100vh",
-    backgroundColor: "#f5f5f5",
-    // marginTop: '70px',
-  },
-  registrationContainer: {
+    width: "100%",
+    backgroundImage:
+      "url('https://images.unsplash.com/photo-1521335629791-ce4aec67dd53?auto=format&fit=crop&w=1600&q=80')", // Fashion background
+    backgroundSize: "cover",
+    backgroundPosition: "center",
     display: "flex",
-    width: "700px",
-    height: "500px",
-    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-    borderRadius: "8px",
-    overflow: "hidden",
-  },
-  leftPane: {
-    backgroundColor: "black",
-    color: "#fff",
-    flex: 1,
-    padding: "20px",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
     justifyContent: "center",
+    alignItems: "center",
+    position: "relative",
+    padding: "20px",
+  },
+  overlay: {
+    position: "absolute",
+    height: "100%",
+    width: "100%",
+    background: "rgba(0,0,0,0.5)",
+    top: 0,
+    left: 0,
+  },
+  registerCard: {
+    position: "relative",
+    zIndex: 2,
+    width: "100%",
+    maxWidth: "450px",
+    background: "rgba(255,255,255,0.1)",
+    borderRadius: "12px",
+    padding: "30px",
+    backdropFilter: "blur(12px)",
+    boxShadow: "0 8px 32px rgba(0,0,0,0.3)",
+    color: "#fff",
     textAlign: "center",
   },
-  heading: {
-    fontSize: "24px",
-    fontWeight: "bold",
-    marginBottom: "10px",
+  title: {
+    fontSize: "26px",
+    marginBottom: "8px",
+    fontWeight: "700",
   },
-  subText: {
+  subtitle: {
     fontSize: "14px",
-    lineHeight: "1.5",
     marginBottom: "20px",
-  },
-  image: {
-    maxWidth: "100%",
-    maxHeight: "150px",
-  },
-  rightPane: {
-    backgroundColor: "#fff",
-    flex: 1,
-    padding: "30px 20px",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
+    color: "#ddd",
   },
   form: {
     display: "flex",
     flexDirection: "column",
+    gap: "15px",
   },
   input: {
-    marginBottom: "15px",
-    padding: "10px",
-    fontSize: "14px",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
+    padding: "12px",
+    borderRadius: "6px",
+    border: "1px solid rgba(255,255,255,0.3)",
     outline: "none",
+    fontSize: "14px",
+    backgroundColor: "rgba(255,255,255,0.2)",
+    color: "#fff",
+    backdropFilter: "blur(4px)",
   },
   registerButton: {
-    backgroundColor: "black",
+    background: "linear-gradient(135deg, #43cea2, #185a9d)",
     color: "#fff",
+    padding: "12px",
     border: "none",
-    padding: "10px",
-    borderRadius: "4px",
+    borderRadius: "6px",
     cursor: "pointer",
-    marginBottom: "10px",
+    fontWeight: "600",
+    transition: "0.3s ease",
   },
-  loginButton: {
-    backgroundColor: "#fff",
-    color: "#441539",
-    border: "1px solid #441539",
-    padding: "10px",
-    borderRadius: "4px",
-    cursor: "pointer",
+  loginLink: {
+    display: "block",
+    marginTop: "12px",
+    fontSize: "13px",
+    color: "#f8cdda",
+    textDecoration: "none",
   },
 };
