@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+# Sitemap location
+Sitemap: https://www.agpdienen.com/sitemap.xml

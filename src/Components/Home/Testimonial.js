@@ -63,31 +63,31 @@ export default function Testimonials() {
   };
 
   return (
-    <section className="py-16 bg-gradient-to-b from-pink-50 to-white">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-pink-600">What Our Customers Say</h2>
-          <p className="text-gray-600 mt-2 max-w-2xl mx-auto">
+    <section className="py-5 bg-light">
+      <div className="container">
+        <div className="text-center mb-5">
+          <h2 className="fw-bold text-danger">What Our Customers Say</h2>
+          <p className="text-muted mt-2">
             Hear what our customers have to say about their experience shopping for family wear on PinkCity.
           </p>
         </div>
 
         <Slider {...settings}>
           {testimonials.map((testimonial, index) => (
-            <div key={index} className="px-3 mb-6">
-              <div className="bg-white rounded-2xl shadow-lg p-6 h-full flex flex-col items-center text-center transition-transform duration-300 hover:scale-[1.03] hover:shadow-xl">
-                <div className="relative w-24 h-24 mb-4">
+            <div key={index} className="px-3 mb-4">
+              <div className="card border-0 shadow h-100 text-center p-4">
+                <div className="mx-auto mb-3" style={{ width: "100px", height: "100px" }}>
                   <Image
                     src={testimonial.image}
                     alt={testimonial.name}
-                    width={96}
-                    height={96}
-                    className="rounded-full border-4 border-pink-100 object-cover"
+                    width={100}
+                    height={100}
+                    className="rounded-circle border border-3 border-danger object-fit-cover"
                   />
                 </div>
-                <h5 className="text-lg font-semibold text-gray-900">{testimonial.name}</h5>
-                <span className="text-sm text-pink-500 mb-3">{testimonial.role}</span>
-                <div className="flex justify-center mb-3">
+                <h5 className="fw-semibold">{testimonial.name}</h5>
+                <small className="text-danger d-block mb-2">{testimonial.role}</small>
+                <div className="d-flex justify-content-center mb-2">
                   {[...Array(5)].map((_, i) => (
                     <FaStar
                       key={i}
@@ -96,7 +96,7 @@ export default function Testimonials() {
                     />
                   ))}
                 </div>
-                <p className="text-gray-600 leading-relaxed text-sm">{testimonial.feedback}</p>
+                <p className="text-muted small">{testimonial.feedback}</p>
               </div>
             </div>
           ))}
