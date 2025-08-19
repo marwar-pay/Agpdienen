@@ -24,17 +24,26 @@ const AllProduct = () => {
   const [sortOrder, setSortOrder] = useState();
   const [category, setCategory] = useState('');
 
-  // Mobile filter offcanvas
+  const router = useRouter();
+  const referenceWebsite = process.env.NEXT_PUBLIC_REFERENCE_WEBSITE;
+
+  // Mobile offcanvas filter
   const [showFilter, setShowFilter] = useState(false);
   const handleCloseFilter = () => setShowFilter(false);
   const handleShowFilter = () => setShowFilter(true);
 
-  const router = useRouter();
-  const referenceWebsite = process.env.NEXT_PUBLIC_REFERENCE_WEBSITE;
+  const totalPages = Math.ceil(totalProducts / productsPerPage);
 
+  // Calculate discount percentage
+  const calculateDiscount = (actualPrice, price) => {
+    return Math.round(((price - actualPrice) / price) * 100);
+  };
+
+  // Fetch products
   const fetchProducts = async () => {
     setLoading(true);
     setError(null);
+
     try {
       const queryParams = new URLSearchParams({
         referenceWebsite,
@@ -47,45 +56,58 @@ const AllProduct = () => {
         ...(search && { search }),
         ...(sortBy && { sortBy }),
         ...(sortOrder && { sortOrder }),
-        ...(category && { category })
+        ...(category && { category }),
       });
 
       const response = await apiGet(`api/product/getproducts?${queryParams}`);
       setProducts(response.data?.products || []);
       setTotalProducts(response.data?.pagination?.totalDocuments || 0);
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Something went wrong.");
     } finally {
       setLoading(false);
     }
   };
 
+  // Set initial category from query param
+  useEffect(() => {
+    if (router.query?.category) {
+      setCategory(router.query.category);
+    }
+  }, [router.query]);
+
+  // Refetch products when filters change
   useEffect(() => {
     fetchProducts();
-  }, [currentPage, minPrice, maxPrice, minDiscount, maxDiscount, search, sortBy, sortOrder, category]);
+  }, [category, currentPage, minPrice, maxPrice, minDiscount, maxDiscount, search, sortBy, sortOrder]);
 
+  // Reset filters
+  const resetFilters = () => {
+    setMinPrice('');
+    setMaxPrice('');
+    setMinDiscount('');
+    setMaxDiscount('');
+    setSearch('');
+    setSortBy(undefined);
+    setSortOrder(undefined);
+    setCategory('');
+    setCurrentPage(1);
+
+    // Remove category from URL
+    router.replace({
+      pathname: router.pathname,
+      query: {}
+    });
+
+    fetchProducts();
+  };
+
+  // Go to product detail
   const handleViewDetails = (id) => {
     router.push(`/product/${id}`);
   };
 
-  const resetFilters = () => {
-    setMinPrice("");
-    setMaxPrice("");
-    setMinDiscount("");
-    setMaxDiscount("");
-    setSearch("");
-    setSortBy();
-    setSortOrder();
-    setCategory("");
-    setCurrentPage(1);
-  };
-
-  const calculateDiscount = (actualPrice, price) => {
-    return Math.round(((price - actualPrice) / price) * 100);
-  };
-
-  const totalPages = Math.ceil(totalProducts / productsPerPage);
-
+  // Filter UI
   const filterContent = (
     <>
       <Form.Group className="mb-3">
@@ -138,15 +160,7 @@ const AllProduct = () => {
         />
       </Form.Group>
 
-      <Form.Group className="mb-3">
-        <Form.Label>Category</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="e.g. Saree, Kurti"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        />
-      </Form.Group>
+    
 
       <Form.Group className="mb-3">
         <Form.Label>Sort By</Form.Label>
@@ -178,7 +192,7 @@ const AllProduct = () => {
         className="w-100 mt-2 glassy-btn"
         onClick={() => {
           resetFilters();
-          handleCloseFilter(); // Also close on mobile
+          handleCloseFilter();
         }}
       >
         Reset All
@@ -208,12 +222,12 @@ const AllProduct = () => {
           </div>
         </Col>
 
-        {/* Mobile Offcanvas Filter */}
+        {/* Mobile Filter Offcanvas */}
         <Offcanvas show={showFilter} onHide={handleCloseFilter} placement="start" className="d-md-none">
           <Offcanvas.Header closeButton>
             <Offcanvas.Title>Refine Results</Offcanvas.Title>
           </Offcanvas.Header>
-          <Offcanvas.Body style={{marginTop:"50px"}}>
+          <Offcanvas.Body style={{ marginTop: "50px" }}>
             {filterContent}
           </Offcanvas.Body>
         </Offcanvas>
@@ -307,15 +321,17 @@ const AllProduct = () => {
 
           {/* Pagination */}
           <div className="d-flex justify-content-between mt-3">
-            <Button className="glassy-btn"
-              variant="outline-secondary"    
+            <Button
+              className="glassy-btn"
+              variant="outline-secondary"
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
             >
               Previous
             </Button>
             <span>Page {currentPage} of {totalPages}</span>
-            <Button className="glassy-btn"
+            <Button
+              className="glassy-btn"
               variant="outline-secondary"
               onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
               disabled={currentPage === totalPages}
@@ -326,7 +342,7 @@ const AllProduct = () => {
         </Col>
       </Row>
 
-      {/* Styles */}
+      {/* Custom Styles */}
       <style>{`
         .product-card:hover {
           transform: translateY(-6px);

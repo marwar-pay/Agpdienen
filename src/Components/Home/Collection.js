@@ -167,7 +167,7 @@ const CollectionList = () => {
                 <div className="text-center category-card">
                   <div className="circle-img mx-auto">
                     <Image
-                      src={category.image || "/placeholder.jpg"} // ✅ API image
+                      src={category.image || "/logo.png"} // ✅ API image
                       alt={category.name}
                       fill
                       style={{ objectFit: "cover" }}
