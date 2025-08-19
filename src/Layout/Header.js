@@ -11,6 +11,7 @@ import { IoMdClose } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { apiGet } from "@/api/apiMethods";
+import { slugify } from "../../utils/slugify";
 
 export default function Header() {
   const [categories, setCategories] = useState([]);
@@ -28,6 +29,8 @@ export default function Header() {
   const desktopDropdownRef = useRef(null);
   const mobileDropdownRef = useRef(null);
 
+
+  
   // Scroll listener for header style
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -187,30 +190,38 @@ export default function Header() {
                           </div>
                         </Link>
                         {categories.map(category => (
-                          <Link
-                            href={`/products/allproducts?category=${category._id}`}
-                            key={category._id}
-                            style={{ textDecoration: "none", color: "#000" }}
-                            onClick={() => setDesktopDropdownOpen(false)} // ✅ close dropdown
-                          >
-                            <div style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "8px",
-                              padding: "6px",
-                              border: "1px solid #f0f0f0",
-                              borderRadius: "6px"
-                            }}>
-                              <Image
-                                src={category.image || "/placeholder.jpg"}
-                                alt={category.name}
-                                width={35}
-                                height={35}
-                                style={{ borderRadius: "50%" }}
-                              />
-                              <span style={{ fontSize: "13px", fontWeight: "500" }}>{category.name}</span>
-                            </div>
-                          </Link>
+<Link
+  href={{
+    pathname: "/products/allproducts",
+    query: { category: category._id }, // backend को ID
+  }}
+  as={`/products/allproducts/${slugify(category.name)}`} // URL me slug
+  key={category._id}
+  style={{ textDecoration: "none", color: "#000" }}
+  onClick={() => setDesktopDropdownOpen(false)}
+>
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
+      padding: "6px",
+      border: "1px solid #f0f0f0",
+      borderRadius: "6px",
+    }}
+  >
+    <Image
+      src={category.image || "/placeholder.jpg"}
+      alt={category.name}
+      width={35}
+      height={35}
+      style={{ borderRadius: "50%" }}
+    />
+    <span style={{ fontSize: "13px", fontWeight: "500" }}>{category.name}</span>
+  </div>
+</Link>
+
+
                         ))}
                       </div>
                     )}
@@ -252,17 +263,38 @@ export default function Header() {
                   All Products
                 </Link>
                 {categories.map(category => (
-                  <Link
-                    href={`/products/allproducts?category=${category._id}`}
-                    key={category._id}
-                    onClick={() => setMenuOpen(false)}
-                    style={{
-                      display: "flex", alignItems: "center", padding: "8px 12px", gap: "8px"
-                    }}
-                  >
-                    <Image src={category.image || "/placeholder.jpg"} alt={category.name} width={30} height={30} style={{ borderRadius: "50%" }} />
-                    {category.name}
-                  </Link>
+<Link
+  href={{
+    pathname: "/products/allproducts",
+    query: { category: category._id }, // backend को ID
+  }}
+  as={`/products/allproducts/${slugify(category.name)}`} // URL me slug
+  key={category._id}
+  style={{ textDecoration: "none", color: "#000" }}
+  onClick={() => setDesktopDropdownOpen(false)}
+>
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
+      padding: "6px",
+      border: "1px solid #f0f0f0",
+      borderRadius: "6px",
+    }}
+  >
+    <Image
+      src={category.image || "/placeholder.jpg"}
+      alt={category.name}
+      width={35}
+      height={35}
+      style={{ borderRadius: "50%" }}
+    />
+    <span style={{ fontSize: "13px", fontWeight: "500" }}>{category.name}</span>
+  </div>
+</Link>
+
+
                 ))}
               </div>
             )}

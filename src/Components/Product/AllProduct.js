@@ -5,6 +5,8 @@ import {
   Container, Row, Col, Card, Button, Form, Offcanvas
 } from "react-bootstrap";
 import { apiGet } from "@/api/apiMethods";
+import Link from "next/link";
+import { slugify } from "../../../utils/slugify";
 
 const AllProduct = () => {
   const [products, setProducts] = useState([]);
@@ -56,7 +58,7 @@ const AllProduct = () => {
         ...(search && { search }),
         ...(sortBy && { sortBy }),
         ...(sortOrder && { sortOrder }),
-        ...(category && { category }),
+        ...(category && { category }),  // ✅ backend को हमेशा ID भेजा जाएगा
       });
 
       const response = await apiGet(`api/product/getproducts?${queryParams}`);
@@ -72,7 +74,7 @@ const AllProduct = () => {
   // Set initial category from query param
   useEffect(() => {
     if (router.query?.category) {
-      setCategory(router.query.category);
+      setCategory(router.query.category); // ✅ हमेशा ID आएगी query में
     }
   }, [router.query]);
 
@@ -93,7 +95,6 @@ const AllProduct = () => {
     setCategory('');
     setCurrentPage(1);
 
-    // Remove category from URL
     router.replace({
       pathname: router.pathname,
       query: {}
@@ -102,10 +103,6 @@ const AllProduct = () => {
     fetchProducts();
   };
 
-  // Go to product detail
-  const handleViewDetails = (id) => {
-    router.push(`/product/${id}`);
-  };
 
   // Filter UI
   const filterContent = (
@@ -159,8 +156,6 @@ const AllProduct = () => {
           onChange={(e) => setMaxDiscount(e.target.value)}
         />
       </Form.Group>
-
-    
 
       <Form.Group className="mb-3">
         <Form.Label>Sort By</Form.Label>
@@ -251,10 +246,22 @@ const AllProduct = () => {
                 const discount = calculateDiscount(product.actualPrice, product.price);
                 return (
                   <Col xs={6} md={3} key={product._id} className="mb-4">
+                    
+<Link
+  href={{
+    pathname: `/product/${slugify(product.productName)}`,
+    query: { id: product._id }, // send ID via query
+  }}
+  as={`/product/${slugify(product.productName)}`} // user-friendly URL
+  key={product._id}
+  style={{ textDecoration: "none", color: "#000" }}
+>
+
+
                     <Card
                       className="h-100 border-0 shadow-sm product-card"
                       style={{ borderRadius: "12px", cursor: "pointer" }}
-                      onClick={() => handleViewDetails(product._id)}
+                      // onClick={() => handleViewDetails(product._id)}
                     >
                       <div
                         style={{
@@ -313,6 +320,7 @@ const AllProduct = () => {
                         </div>
                       </Card.Body>
                     </Card>
+                    </Link>
                   </Col>
                 );
               })
@@ -341,39 +349,6 @@ const AllProduct = () => {
           </div>
         </Col>
       </Row>
-
-      {/* Custom Styles */}
-      <style>{`
-        .product-card:hover {
-          transform: translateY(-6px);
-          box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-        }
-        .product-card:hover .product-img {
-          transform: scale(1.08);
-        }
-        .glassy-btn {
-          background: linear-gradient(135deg, rgba(80, 200, 180, 0.85), rgba(250, 130, 150, 0.85));
-          color: #fff;
-          border: 1px solid rgba(255, 255, 255, 0.25);
-          backdrop-filter: blur(6px);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-          border-radius: 10px;
-          padding: 8px 20px;
-          font-weight: 600;
-          transition: all 0.3s ease-in-out;
-        }
-        .glassy-btn:hover {
-          background: linear-gradient(135deg, rgba(80, 200, 180, 1), rgba(250, 130, 150, 1));
-          transform: translateY(-2px);
-          box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
-        }
-        .glassy-btn:disabled {
-          background: rgba(200, 200, 200, 0.5);
-          color: #666;
-          cursor: not-allowed;
-          box-shadow: none;
-        }
-      `}</style>
     </Container>
   );
 };
