@@ -196,6 +196,7 @@ const AllProduct = () => {
   );
 
   return (
+  <div>
     <Container className="mt-4">
       <h5 className="section-content__title product-title rounded-end mb-3 glassy-btn">
         Fresh Off The Runway
@@ -237,7 +238,7 @@ const AllProduct = () => {
             ) : products.length === 0 ? (
               <Col>
                 <p>No products found matching your filters.</p>
-                <Button variant="primary" onClick={resetFilters}>
+                <Button variant="primary"  className="glassy-btn" onClick={resetFilters}>
                   Reset Filters
                 </Button>
               </Col>
@@ -350,6 +351,38 @@ const AllProduct = () => {
         </Col>
       </Row>
     </Container>
+       <style>{`
+        .product-card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+        .product-card:hover .product-img {
+          transform: scale(1.08);
+        }
+        .glassy-btn {
+          background: linear-gradient(135deg, rgba(80, 200, 180, 0.85), rgba(250, 130, 150, 0.85));
+          color: #fff;
+          border: 1px solid rgba(255, 255, 255, 0.25);
+          backdrop-filter: blur(6px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+          border-radius: 10px;
+          padding: 8px 20px;
+          font-weight: 600;
+          transition: all 0.3s ease-in-out;
+        }
+        .glassy-btn:hover {
+          background: linear-gradient(135deg, rgba(80, 200, 180, 1), rgba(250, 130, 150, 1));
+          transform: translateY(-2px);
+          box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+        }
+        .glassy-btn:disabled {
+          background: rgba(200, 200, 200, 0.5);
+          color: #666;
+          cursor: not-allowed;
+          box-shadow: none;
+        }
+      `}</style>
+    </div>
   );
 };
 
