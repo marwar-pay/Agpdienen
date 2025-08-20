@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../styles/globals.css"
+import { ProductProvider } from "@/context/ProductContext";
 // import { Provider } from "react-redux";
 
 
@@ -18,11 +19,13 @@ export default function App({ Component, pageProps }) {
     <>
 
       <CartProvider>
+        <ProductProvider>
         {/* <Provider store={store}> */}
 
         <Component {...pageProps} />
         <ToastContainer position="top-right" autoClose={2000} />
         {/* </Provider> */}
+        </ProductProvider>
       </CartProvider>
     </>
   );

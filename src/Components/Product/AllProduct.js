@@ -4,19 +4,25 @@ import { useRouter } from "next/router";
 import {
   Container, Row, Col, Card, Button, Form, Offcanvas
 } from "react-bootstrap";
-import { apiGet } from "@/api/apiMethods";
 import Link from "next/link";
 import { slugify } from "../../../utils/slugify";
+import { useProductContext } from "@/context/ProductContext";
+import Head from "next/head";
 
-const AllProduct = () => {
-  const [products, setProducts] = useState([]);
+const AllProduct = ({ initialProducts, initialTotalProducts }) => {
+  const router = useRouter();
+  const {
+    products,
+    totalProducts,
+    loading,
+    error,
+    fetchProducts,
+    setInitialData,
+  } = useProductContext();
+
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(8);
-  const [totalProducts, setTotalProducts] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  // Filters
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
   const [minDiscount, setMinDiscount] = useState('');
@@ -26,64 +32,49 @@ const AllProduct = () => {
   const [sortOrder, setSortOrder] = useState();
   const [category, setCategory] = useState('');
 
-  const router = useRouter();
-  const referenceWebsite = process.env.NEXT_PUBLIC_REFERENCE_WEBSITE;
-
-  // Mobile offcanvas filter
   const [showFilter, setShowFilter] = useState(false);
   const handleCloseFilter = () => setShowFilter(false);
   const handleShowFilter = () => setShowFilter(true);
 
-  const totalPages = Math.ceil(totalProducts / productsPerPage);
+  const totalPages = Math.ceil((totalProducts || 0) / productsPerPage);
 
-  // Calculate discount percentage
-  const calculateDiscount = (actualPrice, price) => {
-    return Math.round(((price - actualPrice) / price) * 100);
-  };
-
-  // Fetch products
-  const fetchProducts = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const queryParams = new URLSearchParams({
-        referenceWebsite,
-        limit: productsPerPage,
-        page: currentPage,
-        ...(minPrice && { minPrice }),
-        ...(maxPrice && { maxPrice }),
-        ...(minDiscount && { minDiscount }),
-        ...(maxDiscount && { maxDiscount }),
-        ...(search && { search }),
-        ...(sortBy && { sortBy }),
-        ...(sortOrder && { sortOrder }),
-        ...(category && { category }),  // ✅ backend को हमेशा ID भेजा जाएगा
-      });
-
-      const response = await apiGet(`api/product/getproducts?${queryParams}`);
-      setProducts(response.data?.products || []);
-      setTotalProducts(response.data?.pagination?.totalDocuments || 0);
-    } catch (err) {
-      setError(err.message || "Something went wrong.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Set initial category from query param
   useEffect(() => {
     if (router.query?.category) {
-      setCategory(router.query.category); // ✅ हमेशा ID आएगी query में
+      setCategory(router.query.category);
     }
   }, [router.query]);
 
-  // Refetch products when filters change
+  // ✅ Set initial data once on mount
   useEffect(() => {
-    fetchProducts();
-  }, [category, currentPage, minPrice, maxPrice, minDiscount, maxDiscount, search, sortBy, sortOrder]);
+    setInitialData(initialProducts, initialTotalProducts);
+  }, []);
 
-  // Reset filters
+  // ✅ Always refetch on filter or page change
+  useEffect(() => {
+    fetchProducts({
+      page: currentPage,
+      limit: productsPerPage,
+      minPrice,
+      maxPrice,
+      minDiscount,
+      maxDiscount,
+      search,
+      sortBy,
+      sortOrder,
+      category
+    });
+  }, [
+    currentPage,
+    minPrice,
+    maxPrice,
+    minDiscount,
+    maxDiscount,
+    search,
+    sortBy,
+    sortOrder,
+    category
+  ]);
+
   const resetFilters = () => {
     setMinPrice('');
     setMaxPrice('');
@@ -94,17 +85,13 @@ const AllProduct = () => {
     setSortOrder(undefined);
     setCategory('');
     setCurrentPage(1);
-
-    router.replace({
-      pathname: router.pathname,
-      query: {}
-    });
-
-    fetchProducts();
+    router.replace({ pathname: router.pathname, query: {} });
   };
 
+  const calculateDiscount = (actualPrice, price) => {
+    return Math.round(((price - actualPrice) / price) * 100);
+  };
 
-  // Filter UI
   const filterContent = (
     <>
       <Form.Group className="mb-3">
@@ -194,164 +181,173 @@ const AllProduct = () => {
       </Button>
     </>
   );
-
-  return (
+return (
   <div>
-    <Container className="mt-4">
-      <h5 className="section-content__title product-title rounded-end mb-3 glassy-btn">
-        Fresh Off The Runway
-      </h5>
+    <Head>
+       <meta
+        name="description"
+        content="Explore a wide range of fashion products freshly curated for you. Shop sarees, kurtis, dresses and more with discounts up to 70%!"
+      />
+      <meta name="keywords" content="fashion, sarees, kurtis, dresses, discounts, online shopping" />
+      <meta property="og:title" content="All Products - Fresh Off The Runway" />
+      <meta property="og:description" content="Browse the latest fashion picks. Best prices. Great deals. Limited stock available." />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://agpdienen.com/" />
+      <meta property="og:image" content="https://images.unsplash.com/photo-1618354691373-d8501b1d9e86?auto=format&fit=crop&w=1200&h=630&q=80" />
 
-      {/* Mobile Filter Button */}
-      <div className="d-md-none mb-3 text-end">
-        <Button onClick={handleShowFilter} className="glassy-btn">
-          Filters
-        </Button>
-      </div>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </Head>
 
-      <Row>
-        {/* Desktop Filter */}
-        <Col md={3} className="d-none d-md-block">
-          <div className="p-3 border rounded bg-white">
-            <h6 className="fw-bold mb-3">Refine Results</h6>
-            {filterContent}
-          </div>
-        </Col>
+  
 
-        {/* Mobile Filter Offcanvas */}
-        <Offcanvas show={showFilter} onHide={handleCloseFilter} placement="start" className="d-md-none">
-          <Offcanvas.Header closeButton>
-            <Offcanvas.Title>Refine Results</Offcanvas.Title>
-          </Offcanvas.Header>
-          <Offcanvas.Body style={{ marginTop: "50px" }}>
-            {filterContent}
-          </Offcanvas.Body>
-        </Offcanvas>
+      <Container className="mt-4">
+        <h5 className="section-content__title product-title rounded-end mb-3 glassy-btn">
+          Fresh Off The Runway
+        </h5>
 
-        {/* Product List */}
-        <Col md={9}>
-          <Row>
-            {loading ? (
-              <Col><p>Loading...</p></Col>
-            ) : error ? (
-              <Col><p className="text-danger">{error}</p></Col>
-            ) : products.length === 0 ? (
-              <Col>
-                <p>No products found matching your filters.</p>
-                <Button variant="primary"  className="glassy-btn" onClick={resetFilters}>
-                  Reset Filters
-                </Button>
-              </Col>
-            ) : (
-              products.map((product) => {
-                const discount = calculateDiscount(product.actualPrice, product.price);
-                return (
-                  <Col xs={6} md={3} key={product._id} className="mb-4">
-                    
-<Link
-  href={{
-    pathname: `/product/${slugify(product.productName)}`,
-    query: { id: product._id }, // send ID via query
-  }}
-  as={`/product/${slugify(product.productName)}`} // user-friendly URL
-  key={product._id}
-  style={{ textDecoration: "none", color: "#000" }}
->
+        <div className="d-md-none mb-3 text-end">
+          <Button onClick={handleShowFilter} className="glassy-btn">
+            Filters
+          </Button>
+        </div>
 
+        <Row>
+          <Col md={3} className="d-none d-md-block">
+            <div className="p-3 border rounded bg-white">
+              <h6 className="fw-bold mb-3">Refine Results</h6>
+              {filterContent}
+            </div>
+          </Col>
 
-                    <Card
-                      className="h-100 border-0 shadow-sm product-card"
-                      style={{ borderRadius: "12px", cursor: "pointer" }}
-                      // onClick={() => handleViewDetails(product._id)}
-                    >
-                      <div
-                        style={{
-                          height: "230px",
-                          position: "relative",
-                          backgroundColor: "#f8f9fa",
-                          overflow: "hidden"
+          <Offcanvas show={showFilter} onHide={handleCloseFilter} placement="start" className="d-md-none">
+            <Offcanvas.Header closeButton>
+              <Offcanvas.Title>Refine Results</Offcanvas.Title>
+            </Offcanvas.Header>
+            <Offcanvas.Body style={{ marginTop: "50px" }}>
+              {filterContent}
+            </Offcanvas.Body>
+          </Offcanvas>
+
+          <Col md={9}>
+            <Row>
+              {loading ? (
+                <Col><p>Loading...</p></Col>
+              ) : error ? (
+                <Col><p className="text-danger">{error}</p></Col>
+              ) : !products || products.length === 0 ? (
+                <Col>
+                  <p>No products found matching your filters.</p>
+                  <Button variant="primary" className="glassy-btn" onClick={resetFilters}>
+                    Reset Filters
+                  </Button>
+                </Col>
+              ) : (
+                products.map((product) => {
+                  const discount = calculateDiscount(product.actualPrice, product.price);
+                  return (
+                    <Col xs={6} md={3} key={product._id} className="mb-4">
+                      <Link
+                        href={{
+                          pathname: `/product/${slugify(product.productName)}`,
+                          query: { id: product._id },
                         }}
+                        as={`/product/${slugify(product.productName)}`}
+                        key={product._id}
+                        style={{ textDecoration: "none", color: "#000" }}
                       >
-                        <Card.Img
-                          src={product.images[0] || "/placeholder.jpg"}
-                          alt={product.productName}
-                          style={{
-                            objectFit: "contain",
-                            height: "100%",
-                            width: "100%",
-                            padding: "10px",
-                            transition: "transform 0.4s ease"
-                          }}
-                          className="product-img"
-                        />
-                        {discount > 0 && (
-                          <span
+                        <Card
+                          className="h-100 border-0 shadow-sm product-card"
+                          style={{ borderRadius: "12px", cursor: "pointer" }}
+                        >
+                          <div
                             style={{
-                              position: "absolute",
-                              top: "10px",
-                              left: "10px",
-                              background: "#dc3545",
-                              color: "#fff",
-                              padding: "4px 8px",
-                              borderRadius: "4px",
-                              fontSize: "12px",
-                              fontWeight: "600"
+                              height: "230px",
+                              position: "relative",
+                              backgroundColor: "#f8f9fa",
+                              overflow: "hidden"
                             }}
                           >
-                            {discount}% OFF
-                          </span>
-                        )}
-                      </div>
-                      <Card.Body className="d-flex flex-column">
-                        <Card.Title
-                          className="fw-bold text-truncate"
-                          style={{ fontSize: "15px" }}
-                        >
-                          {product.productName}
-                        </Card.Title>
-                        <Card.Text style={{ fontSize: '13px', color: '#666', flexGrow: 1 }}>
-                          {product.description?.split(' ').slice(0, 18).join(' ')}
-                          {product.description?.split(' ').length > 18 ? '...' : ''}
-                        </Card.Text>
-                        <div className="mt-auto d-flex justify-content-between align-items-center">
-                          <span className="fw-bold text-success">₹{product.actualPrice}</span>
-                          <small className="text-muted text-decoration-line-through">
-                            ₹{product.price}
-                          </small>
-                        </div>
-                      </Card.Body>
-                    </Card>
-                    </Link>
-                  </Col>
-                );
-              })
-            )}
-          </Row>
+                            <Card.Img
+                              src={product.images[0] || "/placeholder.jpg"}
+                              alt={product.productName}
+                              style={{
+                                objectFit: "contain",
+                                height: "100%",
+                                width: "100%",
+                                padding: "10px",
+                                transition: "transform 0.4s ease"
+                              }}
+                              className="product-img"
+                            />
+                            {discount > 0 && (
+                              <span
+                                style={{
+                                  position: "absolute",
+                                  top: "10px",
+                                  left: "10px",
+                                  background: "#dc3545",
+                                  color: "#fff",
+                                  padding: "4px 8px",
+                                  borderRadius: "4px",
+                                  fontSize: "12px",
+                                  fontWeight: "600"
+                                }}
+                              >
+                                {discount}% OFF
+                              </span>
+                            )}
+                          </div>
+                          <Card.Body className="d-flex flex-column">
+                            <Card.Title
+                              className="fw-bold text-truncate"
+                              style={{ fontSize: "15px" }}
+                            >
+                              {product.productName}
+                            </Card.Title>
+                            <Card.Text style={{ fontSize: '13px', color: '#666', flexGrow: 1 }}>
+                              {product.description?.split(' ').slice(0, 18).join(' ')}
+                              {product.description?.split(' ').length > 18 ? '...' : ''}
+                            </Card.Text>
+                            <div className="mt-auto d-flex justify-content-between align-items-center">
+                              <span className="fw-bold text-success">₹{product.actualPrice}</span>
+                              <small className="text-muted text-decoration-line-through">
+                                ₹{product.price}
+                              </small>
+                            </div>
+                          </Card.Body>
+                        </Card>
+                      </Link>
+                    </Col>
+                  );
+                })
+              )}
+            </Row>
 
-          {/* Pagination */}
-          <div className="d-flex justify-content-between mt-3">
-            <Button
-              className="glassy-btn"
-              variant="outline-secondary"
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-            >
-              Previous
-            </Button>
-            <span>Page {currentPage} of {totalPages}</span>
-            <Button
-              className="glassy-btn"
-              variant="outline-secondary"
-              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-              disabled={currentPage === totalPages}
-            >
-              Next
-            </Button>
-          </div>
-        </Col>
-      </Row>
-    </Container>
-       <style>{`
+            {/* Pagination */}
+            <div className="d-flex justify-content-between mt-3">
+              <Button
+                className="glassy-btn"
+                variant="outline-secondary"
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </Button>
+              <span>Page {currentPage} of {totalPages}</span>
+              <Button
+                className="glassy-btn"
+                variant="outline-secondary"
+                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </Button>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+
+      <style>{`
         .product-card:hover {
           transform: translateY(-6px);
           box-shadow: 0 8px 20px rgba(0,0,0,0.12);
@@ -384,6 +380,27 @@ const AllProduct = () => {
       `}</style>
     </div>
   );
-};
+}
 
 export default AllProduct;
+
+// ✅ Server-side props
+export async function getServerSideProps(context) {
+  const referenceWebsite = process.env.NEXT_PUBLIC_REFERENCE_WEBSITE;
+
+  const queryParams = new URLSearchParams({
+    referenceWebsite,
+    limit: 8,
+    page: 1,
+  });
+
+  const res = await fetch(`${process.env.API_BASE_URL}/api/product/getproducts?${queryParams}`);
+  const data = await res.json();
+
+  return {
+    props: {
+      initialProducts: data?.products || [],
+      initialTotalProducts: data?.pagination?.totalDocuments || 0,
+    },
+  };
+}
